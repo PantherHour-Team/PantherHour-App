@@ -3,7 +3,7 @@ The Panther Hour app.
 
 Team Roles:
 
-Rob - UI, menu navigation, general programming
+Rob - UI, menu navigation, general programming <br>
 Rohith - firebase, back end hookup, and encryption for user authentication
 
 
