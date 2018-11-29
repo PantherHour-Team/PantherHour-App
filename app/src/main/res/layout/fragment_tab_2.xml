@@ -25,6 +25,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <Button
@@ -46,17 +47,26 @@
             </LinearLayout>
 
 
-          <ListView
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/common_google_signin_btn_text_light_disabled"
+                android:clickable="true"
+                android:entries="@color/common_google_signin_btn_text_light"
+                android:footerDividersEnabled="true"
+                android:headerDividersEnabled="true"
+                android:minHeight="50dp"
+                android:padding="10pt"
+                android:scrollbars="vertical">
 
 
-          </ListView>
+            </ListView>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:orientation="horizontal">
 
 
