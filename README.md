@@ -3,6 +3,17 @@ The Panther Hour app.
 
 Team Roles:
 
+
+Project Tasks:
+* Log in page (Front and back end)
+* Register/ Signup page (Front and back end)
+    - William
+* Student Main Activity
+* Teacher Main Activity
+* Scehduler Activity
+
+
+
 Rob - UI, menu navigation, general programming <br>
 Rohith - firebase, back end hookup, and encryption for user authentication<br>
 William - UI, signup page
