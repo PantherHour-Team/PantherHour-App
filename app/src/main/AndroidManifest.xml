@@ -32,7 +32,11 @@
             android:label="@string/title_activity_register" />
         <activity
             android:name=".TeacherMainActivity"
-            android:label="@string/title_activity_teacher_main"></activity>
+            android:label="@string/title_activity_teacher_main" />
+        <activity
+            android:name=".Scheduler"
+            android:label="@string/title_activity_scheduler"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
