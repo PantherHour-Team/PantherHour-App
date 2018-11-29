@@ -12,6 +12,7 @@
     tools:context=".LoginActivity">
 
     <!-- Login progress -->
+
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
@@ -46,15 +47,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingBottom="10pt"
-                android:paddingLeft="0pt"
                 android:paddingTop="10pt"
-                android:text="Login"
+                android:text="@string/register"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textStyle="bold" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <AutoCompleteTextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_your_name"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
@@ -65,11 +85,14 @@
                     android:maxLines="1"
                     android:singleLine="true" />
 
+
+
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <EditText
                     android:id="@+id/password"
@@ -91,28 +114,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
+                android:text="@string/register"
                 android:textStyle="bold" />
 
-
-            <TextView
-                android:id="@+id/register_link"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:paddingTop="20pt"
-                android:text="New to Panther Hour? Register here"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                tools:textColor="@android:color/holo_blue_dark" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingTop="40pt"
-                android:text="(C) PantherApps.com"
+                android:text="@string/c_pantherapps_com"
                 android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:visibility="visible" />
 
 
 

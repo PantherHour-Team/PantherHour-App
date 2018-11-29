@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
     EditText editTextName;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference mRootReference = firebaseDatabase.getReference("message");
-
+//
     //DatabaseReference mAccountReference = mRootReference.child("account");
 
     //DatabaseReference databaseAccounts;
