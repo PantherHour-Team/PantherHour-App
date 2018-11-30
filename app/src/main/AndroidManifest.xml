@@ -34,7 +34,7 @@
             android:name=".TeacherMainActivity"
             android:label="@string/title_activity_teacher_main" />
         <activity
-            android:name=".Scheduler"
+            android:name=".SchedulerActivity"
             android:label="@string/title_activity_scheduler"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
