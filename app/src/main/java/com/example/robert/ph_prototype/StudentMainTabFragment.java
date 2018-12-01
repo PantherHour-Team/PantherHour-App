@@ -3,17 +3,16 @@ package com.example.robert.ph_prototype;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class TabOneFragment extends Fragment {
+public class StudentMainTabFragment extends Fragment {
 
-    public static TabOneFragment newInstance() {
-        TabOneFragment fragment = new TabOneFragment();
+    public static StudentMainTabFragment newInstance() {
+        StudentMainTabFragment fragment = new StudentMainTabFragment();
         return fragment;
     }
 
@@ -25,18 +24,19 @@ public class TabOneFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tab_1, container, false);
-        initializeButtons(view);
+        View view = inflater.inflate(R.layout.student_main_tab, container, false);
+        initButtons(view);
         return view;
     }
 
-    private void initializeButtons(View v) {
+    private void initButtons(View v) {
         Button courseButton = (Button) v.findViewById(R.id.course_btn);
         courseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "Filter by course", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getActivity(), SchedulerActivity.class);
+                Intent intent = new Intent(getActivity(), StudentSchedulerActivity.class);
+                intent.putExtra("FILTER", ScheduleItemCard.Type.COURSE_HELP.toString());
                 startActivity(intent);
             }
         });
@@ -46,7 +46,8 @@ public class TabOneFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "Filter by self directed", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getActivity(), SchedulerActivity.class);
+                Intent intent = new Intent(getActivity(), StudentSchedulerActivity.class);
+                intent.putExtra("FILTER", ScheduleItemCard.Type.SELF_GUIDED.toString());
                 startActivity(intent);
             }
         });
@@ -56,7 +57,19 @@ public class TabOneFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "Filter by club", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getActivity(), SchedulerActivity.class);
+                Intent intent = new Intent(getActivity(), StudentSchedulerActivity.class);
+                intent.putExtra("FILTER", ScheduleItemCard.Type.CLUB.toString());
+                startActivity(intent);
+            }
+        });
+
+        Button allActivitiesButton = (Button) v.findViewById(R.id.all_activities_btn);
+        allActivitiesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "See All Activities", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), StudentSchedulerActivity.class);
+                intent.putExtra("FILTER", ScheduleItemCard.Type.ALL.toString());
                 startActivity(intent);
             }
         });

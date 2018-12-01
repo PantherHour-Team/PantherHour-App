@@ -24,7 +24,7 @@ public class NavigationActivity extends AppCompatActivity {
                         Fragment selectedFragment = null;
                         switch (item.getItemId()) {
                             case R.id.action_item1:
-                                selectedFragment = TabOneFragment.newInstance();
+                                selectedFragment = StudentMainTabFragment.newInstance();
                                 break;
                             case R.id.action_item2:
                                 selectedFragment = TabTwoFragment.newInstance();
@@ -42,7 +42,7 @@ public class NavigationActivity extends AppCompatActivity {
 
         //Manually displaying the first fragment - one time only
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_layout, TabOneFragment.newInstance());
+        transaction.replace(R.id.frame_layout, StudentMainTabFragment.newInstance());
         transaction.commit();
 
         //Used to select an item programmatically

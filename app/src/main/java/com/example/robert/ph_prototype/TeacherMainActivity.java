@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 public class TeacherMainActivity extends AppCompatActivity {
 
@@ -25,7 +24,7 @@ public class TeacherMainActivity extends AppCompatActivity {
                         Fragment selectedFragment = null;
                         switch (item.getItemId()) {
                             case R.id.action_item1:
-                                selectedFragment = TabOneFragment.newInstance();
+                                selectedFragment = StudentMainTabFragment.newInstance();
                                 break;
                             case R.id.action_item2:
                                 selectedFragment = TabTwoFragment.newInstance();
@@ -43,7 +42,7 @@ public class TeacherMainActivity extends AppCompatActivity {
 
         //Manually displaying the first fragment - one time only
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_layout, TabOneFragment.newInstance());
+        transaction.replace(R.id.frame_layout, StudentMainTabFragment.newInstance());
         transaction.commit();
 
         //Used to select an item programmatically

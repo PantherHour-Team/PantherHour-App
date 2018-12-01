@@ -34,8 +34,12 @@
             android:name=".TeacherMainActivity"
             android:label="@string/title_activity_teacher_main" />
         <activity
-            android:name=".SchedulerActivity"
+            android:name=".StudentSchedulerActivity"
             android:label="@string/title_activity_scheduler"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".StudentSignupActivity"
+            android:label="@string/title_activity_teacher_main"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
