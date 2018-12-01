@@ -256,6 +256,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     }
 
     private boolean isEmailValid(String email) {
+        // nbd
         //TODO: Replace this with your own logic
         return email.contains("@");
     }
