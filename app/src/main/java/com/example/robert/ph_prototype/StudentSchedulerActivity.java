@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -45,7 +44,7 @@ public class StudentSchedulerActivity extends AppCompatActivity {
     private ScheduleItemCardArrayAdapter scheduleItemCardArrayAdapter;
     private ListView listView;
 
-    private ScheduleItemCard.Type filter;
+    private ActivityModel.Type filter;
     private int userId;
     private String activities;
     private String userEmail;
@@ -66,7 +65,7 @@ public class StudentSchedulerActivity extends AppCompatActivity {
         activities = i.getStringExtra("activities");
         userEmail = i.getStringExtra("user_email");
         signupEnabled = i.getBooleanExtra("signup_enabled", true);
-        filter = ScheduleItemCard.Type.valueOf(i.getStringExtra("FILTER"));
+        filter = ActivityModel.Type.valueOf(i.getStringExtra("FILTER"));
         Log.d("nshinn", filter.toString());
 
         allRooms = new HashSet<>();
@@ -100,7 +99,7 @@ public class StudentSchedulerActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ScheduleItemCard selectedItem = (ScheduleItemCard) parent.getItemAtPosition(position);
+                ActivityModel selectedItem = (ActivityModel) parent.getItemAtPosition(position);
                 Intent intent = new Intent(StudentSchedulerActivity.this, StudentSignupActivity.class);
                 intent.putExtra("parcelable_item", (Parcelable) selectedItem);
                 intent.putExtra("activity_id", activityIds.get(selectedItem.getName()));
@@ -126,7 +125,7 @@ public class StudentSchedulerActivity extends AppCompatActivity {
             scheduleItemCardArrayAdapter.reset();
             activityIds.clear();
         }
-        if (filter == ScheduleItemCard.Type.MINE) {
+        if (filter == ActivityModel.Type.MINE) {
             if (activities == null || activities.equals("")) return;
             Set<String> idSet = new HashSet<>();
             idSet.addAll(Arrays.asList(activities.split(" ")));
@@ -142,8 +141,8 @@ public class StudentSchedulerActivity extends AppCompatActivity {
                 String students = fields.get("students");
                 String capacity = fields.get("capacity");
 
-                ScheduleItemCard newActivity =
-                        new ScheduleItemCard(name, type, room, teacher, timeFrame, students, capacity);
+                ActivityModel newActivity =
+                        new ActivityModel(name, type, room, teacher, timeFrame, students, capacity);
                 scheduleItemCardArrayAdapter.add(newActivity);
                 allRooms.add(room);
                 activityIds.put(name, activity);
@@ -161,9 +160,9 @@ public class StudentSchedulerActivity extends AppCompatActivity {
                 String students = fields.get("students");
                 String capacity = fields.get("capacity");
 
-                if (filter == ScheduleItemCard.Type.valueOf(type)) {
-                    ScheduleItemCard newActivity =
-                            new ScheduleItemCard(name, type, room, teacher, timeFrame, students, capacity);
+                if (filter == ActivityModel.Type.valueOf(type)) {
+                    ActivityModel newActivity =
+                            new ActivityModel(name, type, room, teacher, timeFrame, students, capacity);
                     scheduleItemCardArrayAdapter.add(newActivity);
                     allRooms.add(room);
                 }
@@ -265,9 +264,9 @@ public class StudentSchedulerActivity extends AppCompatActivity {
         boolean allRooms = currRoomFilter.equals("All Rooms");
         boolean allTimes = currTimeFilter.equals("All Time Slots");
 
-        ArrayList<ScheduleItemCard> filteredList = new ArrayList<>();
+        ArrayList<ActivityModel> filteredList = new ArrayList<>();
         for (int i = 0; i < scheduleItemCardArrayAdapter.getCount(); i++) {
-            ScheduleItemCard current = scheduleItemCardArrayAdapter.getItem(i);
+            ActivityModel current = scheduleItemCardArrayAdapter.getItem(i);
             if (allRooms) {
                 if (current.getStartTime().contains(currTimeFilter)) {
                     filteredList.add(current);

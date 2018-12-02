@@ -2,21 +2,17 @@ package com.example.robert.ph_prototype;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
 
 public class StudentMainActivity extends Activity {
     private static String REFERENCE = "Account";
@@ -70,7 +66,7 @@ public class StudentMainActivity extends Activity {
             public void onClick(View v) {
 //                Toast.makeText(getApplicationContext(), "Filter by course", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(StudentMainActivity.this, StudentSchedulerActivity.class);
-                intent.putExtra("FILTER", ScheduleItemCard.Type.COURSE_HELP.toString());
+                intent.putExtra("FILTER", ActivityModel.Type.COURSE_HELP.toString());
                 intent.putExtra("user_id", userId);
                 intent.putExtra("activities", activities);
                 intent.putExtra("user_email", userEmail);
@@ -84,7 +80,7 @@ public class StudentMainActivity extends Activity {
             public void onClick(View v) {
 //                Toast.makeText(getApplicationContext(), "Filter by self directed", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(StudentMainActivity.this, StudentSchedulerActivity.class);
-                intent.putExtra("FILTER", ScheduleItemCard.Type.SELF_GUIDED.toString());
+                intent.putExtra("FILTER", ActivityModel.Type.SELF_GUIDED.toString());
                 intent.putExtra("user_id", userId);
                 intent.putExtra("activities", activities);
                 intent.putExtra("user_email", userEmail);
@@ -98,7 +94,7 @@ public class StudentMainActivity extends Activity {
             public void onClick(View v) {
 //                Toast.makeText(getApplicationContext(), "Filter by club", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(StudentMainActivity.this, StudentSchedulerActivity.class);
-                intent.putExtra("FILTER", ScheduleItemCard.Type.CLUB.toString());
+                intent.putExtra("FILTER", ActivityModel.Type.CLUB.toString());
                 intent.putExtra("user_id", userId);
                 intent.putExtra("activities", activities);
                 intent.putExtra("user_email", userEmail);
@@ -112,7 +108,7 @@ public class StudentMainActivity extends Activity {
             public void onClick(View v) {
 //                Toast.makeText(getApplicationContext(), "See My Activities", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(StudentMainActivity.this, StudentSchedulerActivity.class);
-                intent.putExtra("FILTER", ScheduleItemCard.Type.MINE.toString());
+                intent.putExtra("FILTER", ActivityModel.Type.MINE.toString());
                 intent.putExtra("user_id", userId);
                 intent.putExtra("activities", activities);
                 intent.putExtra("user_email", userEmail);

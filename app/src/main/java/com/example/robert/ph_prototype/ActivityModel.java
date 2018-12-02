@@ -3,7 +3,7 @@ package com.example.robert.ph_prototype;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ScheduleItemCard implements Parcelable {
+public class ActivityModel implements Parcelable {
 
     enum Type
     {
@@ -18,8 +18,8 @@ public class ScheduleItemCard implements Parcelable {
     private String students;
     private String capacity;
 
-    public ScheduleItemCard(String name, String type, String room, String teacher, String timeFrame,
-                            String students, String capacity) {
+    public ActivityModel(String name, String type, String room, String teacher, String timeFrame,
+                         String students, String capacity) {
         this.name = name;
         this.type = type;
         this.room = room;
@@ -30,7 +30,7 @@ public class ScheduleItemCard implements Parcelable {
     }
 
     // example constructor that takes a Parcel and gives the object
-    private ScheduleItemCard(Parcel in) {
+    private ActivityModel(Parcel in) {
         this.name = in.readString();
         this.type =  in.readString();
         this.room =  in.readString();
@@ -104,14 +104,16 @@ public class ScheduleItemCard implements Parcelable {
     }
 
     // this is used to regenerate the schedule item object
-    public static final Parcelable.Creator<ScheduleItemCard> CREATOR = new Parcelable.Creator<ScheduleItemCard>() {
-        public ScheduleItemCard createFromParcel(Parcel in) {
-            return new ScheduleItemCard(in);
+    public static final Parcelable.Creator<ActivityModel> CREATOR = new Parcelable.Creator<ActivityModel>() {
+        public ActivityModel createFromParcel(Parcel in) {
+            return new ActivityModel(in);
         }
 
-        public ScheduleItemCard[] newArray(int size) {
-            return new ScheduleItemCard[size];
+        public ActivityModel[] newArray(int size) {
+            return new ActivityModel[size];
         }
     };
+
+    // Firebase Methods
 
 }

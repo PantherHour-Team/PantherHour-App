@@ -3,7 +3,6 @@ package com.example.robert.ph_prototype;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +14,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class ScheduleItemCardArrayAdapter extends ArrayAdapter<ScheduleItemCard> {
+public class ScheduleItemCardArrayAdapter extends ArrayAdapter<ActivityModel> {
     private static final String TAG = "ScheduleItemCardArrayAdapter";
-    private List<ScheduleItemCard> cardList = new ArrayList<ScheduleItemCard>();
+    private List<ActivityModel> cardList = new ArrayList<ActivityModel>();
 
     static class CardViewHolder {
         TextView name;
@@ -31,13 +30,13 @@ public class ScheduleItemCardArrayAdapter extends ArrayAdapter<ScheduleItemCard>
     }
 
     public ScheduleItemCardArrayAdapter(Context context, int textViewResourceId,
-                                        ArrayList<ScheduleItemCard> cardList) {
+                                        ArrayList<ActivityModel> cardList) {
         super(context, textViewResourceId);
         this.cardList = cardList;
     }
 
     @Override
-    public void add(ScheduleItemCard object) {
+    public void add(ActivityModel object) {
         cardList.add(object);
         super.add(object);
     }
@@ -48,7 +47,7 @@ public class ScheduleItemCardArrayAdapter extends ArrayAdapter<ScheduleItemCard>
     }
 
     @Override
-    public ScheduleItemCard getItem(int index) {
+    public ActivityModel getItem(int index) {
         return this.cardList.get(index);
     }
 
@@ -68,14 +67,14 @@ public class ScheduleItemCardArrayAdapter extends ArrayAdapter<ScheduleItemCard>
         } else {
             viewHolder = (CardViewHolder)row.getTag();
         }
-        ScheduleItemCard card = getItem(position);
+        ActivityModel card = getItem(position);
         viewHolder.name.setText("Title: "+card.getName());
         viewHolder.time.setText("Time: "+card.getStartTime());
         viewHolder.room.setText("Room: "+card.getRoom());
         viewHolder.capacity.setText("Capacity: "+card.getCapacity());
 
         // Coloring scheme
-        switch (ScheduleItemCard.Type.valueOf(card.getType())) {
+        switch (ActivityModel.Type.valueOf(card.getType())) {
             case COURSE_HELP:
                 row.setBackground(ContextCompat.getDrawable(this.getContext(),
                         R.drawable.rounded_corners_dkgray));
@@ -105,10 +104,10 @@ public class ScheduleItemCardArrayAdapter extends ArrayAdapter<ScheduleItemCard>
     /**
      *  Comparator for the adapter to sort each activity by its start time
      */
-    public static Comparator<ScheduleItemCard> getComparator() {
-        return new Comparator<ScheduleItemCard>() {
+    public static Comparator<ActivityModel> getComparator() {
+        return new Comparator<ActivityModel>() {
             @Override
-            public int compare(ScheduleItemCard a, ScheduleItemCard b) {
+            public int compare(ActivityModel a, ActivityModel b) {
                 // Time Frame = "MM/DD/YYYY HH:MM:SS MM/DD/YYYY HH:MM:SS"
                 return a.getStartTime().compareTo(b.getEndTime());
             }

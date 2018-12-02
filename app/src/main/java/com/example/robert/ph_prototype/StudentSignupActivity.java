@@ -20,7 +20,7 @@ public class StudentSignupActivity extends AppCompatActivity {
     DatabaseReference mRootReference = firebaseDatabase.getReference(REFERENCE);
     DatabaseReference mRootReference2 = firebaseDatabase.getReference(REFERENCE_2);
 
-    ScheduleItemCard currentItem;
+    ActivityModel currentItem;
 
     private String activityID;
     private String activities;
@@ -39,7 +39,7 @@ public class StudentSignupActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         userId = i.getIntExtra("user_id", -1);
-        currentItem = (ScheduleItemCard) i.getParcelableExtra("parcelable_item");
+        currentItem = (ActivityModel) i.getParcelableExtra("parcelable_item");
         activityID = i.getStringExtra("activity_id");
         activities = i.getStringExtra("activities");
         userEmail = i.getStringExtra("user_email");
