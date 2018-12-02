@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -21,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +31,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +46,9 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference mRootReference = firebaseDatabase.getReference("Account");
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -57,6 +66,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
+
+    private String fullName;
+    private int userId;
+    private int accountType;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -161,6 +174,49 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
+        mRootReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                fullName =
+                        snapshot.child(safeEmail(mEmailView.getText().toString())).child("full_name").getValue(String.class);
+                userId =
+                        snapshot.child(safeEmail(mEmailView.getText().toString())).child("user_id").getValue(Integer.class);
+                accountType =
+                        snapshot.child(safeEmail(mEmailView.getText().toString())).child("account_type").getValue(Integer.class);
+                if (snapshot.hasChild(safeEmail(mEmailView.getText().toString()))) {
+                    emailValid();
+                }
+                else {
+                    accountValid(false,false);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {}
+        });
+    }
+
+    public void emailValid() {
+        mRootReference.child(safeEmail(mEmailView.getText().toString())).child("pass_word").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String pw = dataSnapshot.getValue(String.class);
+                Log.i("pw", pw);
+
+                if(!pw.equals(mPasswordView.getText().toString())) {
+                    accountValid(true,false);
+                }
+                else {
+                    accountValid(true,true);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {}
+        });
+    }
+
+    public void accountValid(boolean e, boolean p) {
         if (mAuthTask != null) {
             return;
         }
@@ -176,13 +232,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
@@ -191,6 +240,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else if (!isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
+            cancel = true;
+        }
+        else if(!e) {
+            mEmailView.setError(getString(R.string.error_nonexist_email));
+            focusView = mEmailView;
+            cancel = true;
+        }
+
+        // Check for a valid password, if the user entered one.
+        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+            mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mPasswordView;
+            cancel = true;
+        }
+        else if(!p) {
+            mPasswordView.setError(getString(R.string.error_incorrect_password));
+            focusView = mPasswordView;
             cancel = true;
         }
 
@@ -324,7 +390,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
@@ -332,15 +397,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
             // TODO: register the new account here.
+
             return true;
         }
 
@@ -351,7 +409,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 finish();
-                startActivity(new Intent(LoginActivity.this, TeacherMainActivity.class));
+                if (accountType == 1) {
+                    startTeacherActivtiy();
+                } else {
+                    startStudentActivity();
+                }
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -364,5 +426,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
+
+    private void startStudentActivity() {
+        Intent intent = new Intent(LoginActivity.this, StudentMainActivity.class);
+        intent.putExtra("full_name", fullName);
+        intent.putExtra("user_id", userId);
+        intent.putExtra("user_email", mEmailView.getText().toString());
+        startActivity(intent);
+    }
+
+    private void startTeacherActivtiy() {
+        Intent intent = new Intent(LoginActivity.this, TeacherMainActivity.class);
+        intent.putExtra("full_name", fullName);
+        intent.putExtra("user_id", userId);
+        startActivity(intent);
+    }
+
+    private String safeEmail(String email) {
+        return email.replace("@","(AT)").replace(".","(DOT)");
+    }
+
 }
 

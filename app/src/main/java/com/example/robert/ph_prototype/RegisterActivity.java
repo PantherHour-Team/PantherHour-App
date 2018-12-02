@@ -4,10 +4,12 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
+import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.widget.RadioButton;
 
 import android.content.CursorLoader;
 import android.content.Loader;
@@ -19,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,7 +30,20 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import java.util.ArrayList;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +59,9 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference mRootReference = firebaseDatabase.getReference("Account");
+    final ArrayList<Integer> value = new ArrayList<Integer>();
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -51,26 +70,54 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
+
+    public static class User {
+
+        public int account_type;
+        public String full_name;
+        public String pass_word;
+        public int user_id;
+        public String activities;
+
+        public User(int accountType, String fullName, String password, int userId,
+                    String activities) {
+            account_type = accountType;
+            full_name = fullName;
+            pass_word = password;
+            user_id = userId;
+            this.activities = activities;
+        }
+
+    }
+
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
 
     // UI references.
+    private EditText mNameView;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
 
+    private int type = -1;
+    private boolean exist = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
+        mNameView = (EditText) findViewById(R.id.name);
         mPasswordView = (EditText) findViewById(R.id.password);
+
+        value.add(-1);
+
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -144,6 +191,22 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
+        mRootReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.hasChild(safeEmail(mEmailView.getText().toString()))) {
+                    emailGood(false);
+                }
+                else {
+                    emailGood(true);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {}
+        });
+    }
+
+    public void emailGood(boolean b) {
         if (mAuthTask != null) {
             return;
         }
@@ -155,12 +218,13 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String fullName = mNameView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -175,6 +239,10 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
+        } else if (!b) {
+            mEmailView.setError(getString(R.string.error_email_exists));
+            focusView = mEmailView;
+            cancel = true;
         }
 
         if (cancel) {
@@ -185,12 +253,13 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password, fullName, "");
             mAuthTask.execute((Void) null);
         }
     }
 
     private boolean isEmailValid(String email) {
+        // nbd
         //TODO: Replace this with your own logic
         return email.contains("@");
     }
@@ -298,16 +367,18 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
         private final String mEmail;
         private final String mPassword;
+        private final String mFullName;
+        private final String mActivities;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password, String name, String activities) {
             mEmail = email;
             mPassword = password;
+            mFullName = name;
+            mActivities = activities;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
@@ -315,15 +386,20 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
             // TODO: register the new account here.
+            mRootReference.child("key").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Integer mID = dataSnapshot.getValue(Integer.class);
+                    Log.i("mID", Integer.toString(mID));
+                    addAccount(mEmail,mPassword, mFullName, mID, mActivities);
+                    mRootReference.child("key").setValue(mID + 1);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {}
+            });
+
             return true;
         }
 
@@ -344,6 +420,28 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+    }
+
+    private void addAccount(String mEmail, String mPassword, String mFullName, int id, String activities) {
+
+        RadioGroup radioSexGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        String acc_type =
+                ((RadioButton) findViewById(radioSexGroup.getCheckedRadioButtonId())).getText().toString();
+        mRootReference.child(safeEmail(mEmail)).setValue(new User(whatKind(acc_type), mFullName,
+                mPassword, id, activities));
+    }
+
+    private String safeEmail(String email) {
+        return email.replace("@","(AT)").replace(".","(DOT)");
+    }
+
+    private int whatKind(String s) {
+        if(s.equals("Student")) {
+            return 0;
+        }
+        else {
+            return 1;
         }
     }
 }

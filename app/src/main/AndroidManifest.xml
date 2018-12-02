@@ -26,7 +26,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".NavigationActivity" />
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register" />
@@ -36,7 +35,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".Scheduler"
+            android:name=".StudentSchedulerActivity"
             android:label="@string/title_activity_scheduler"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -50,7 +49,14 @@
         <activity
             android:name=".TeacherManageActivity"
             android:label="@string/title_activity_admin"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".StudentSignupActivity"
+            android:label="@string/title_activity_teacher_main"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".StudentMainActivity"
+            android:label="@string/title_activity_teacher_main"></activity>
     </application>
 
 </manifest>
