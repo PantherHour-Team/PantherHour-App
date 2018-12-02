@@ -19,7 +19,7 @@ public class ScheduleItemCardArrayAdapter extends ArrayAdapter<ScheduleItemCard>
     static class CardViewHolder {
         TextView name;
         TextView time;
-        TextView duration;
+        TextView room;
         TextView capacity;
     }
 
@@ -53,7 +53,7 @@ public class ScheduleItemCardArrayAdapter extends ArrayAdapter<ScheduleItemCard>
             viewHolder = new CardViewHolder();
             viewHolder.name = (TextView) row.findViewById(R.id.name);
             viewHolder.time = (TextView) row.findViewById(R.id.time);
-            viewHolder.duration = (TextView) row.findViewById(R.id.duration);
+            viewHolder.room = (TextView) row.findViewById(R.id.room);
             viewHolder.capacity = (TextView) row.findViewById(R.id.capacity);
             row.setTag(viewHolder);
         } else {
@@ -61,8 +61,8 @@ public class ScheduleItemCardArrayAdapter extends ArrayAdapter<ScheduleItemCard>
         }
         ScheduleItemCard card = getItem(position);
         viewHolder.name.setText("Name: "+card.getName());
-        viewHolder.time.setText("Time: "+card.getTime());
-        viewHolder.duration.setText("Duration: "+card.getDuration());
+        viewHolder.time.setText("Time: "+card.getTimeFrame());
+        viewHolder.room.setText("Room: "+card.getRoom());
         viewHolder.capacity.setText("Capacity: "+card.getCapacity());
         return row;
     }

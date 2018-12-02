@@ -30,10 +30,10 @@
             android:text="Time"/>
 
         <TextView
-            android:id="@+id/duration"
+            android:id="@+id/room"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Duration"/>
+            android:text="Room"/>
 
         <TextView
             android:id="@+id/capacity"

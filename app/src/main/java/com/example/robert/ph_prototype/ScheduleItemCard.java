@@ -14,19 +14,17 @@ public class ScheduleItemCard implements Parcelable {
     private String type;
     private String room;
     private String teacher;
-    private String time;
-    private String duration;
+    private String timeFrame;
     private String students;
     private String capacity;
 
-    public ScheduleItemCard(String name, String type, String room, String teacher, String time,
+    public ScheduleItemCard(String name, String type, String room, String teacher, String timeFrame,
                             String duration, String students, String capacity) {
         this.name = name;
         this.type = type;
         this.room = room;
         this.teacher = teacher;
-        this.time = time;
-        this.duration = duration;
+        this.timeFrame = timeFrame;
         this.students = students;
         this.capacity = capacity;
     }
@@ -37,8 +35,7 @@ public class ScheduleItemCard implements Parcelable {
         this.type =  in.readString();
         this.room =  in.readString();
         this.teacher =  in.readString();
-        this.time =  in.readString();
-        this.duration =  in.readString();
+        this.timeFrame =  in.readString();
         this.students =  in.readString();
         this.capacity = in.readString();
     }
@@ -59,12 +56,8 @@ public class ScheduleItemCard implements Parcelable {
         return teacher;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public String getDuration() {
-        return duration;
+    public String getTimeFrame() {
+        return timeFrame;
     }
 
     public String getStudents() {
@@ -89,8 +82,7 @@ public class ScheduleItemCard implements Parcelable {
         out.writeString(this.type);
         out.writeString(this.room);
         out.writeString(this.teacher);
-        out.writeString(this.time);
-        out.writeString(this.duration);
+        out.writeString(this.timeFrame);
         out.writeString(this.students);
         out.writeString(this.capacity);
     }

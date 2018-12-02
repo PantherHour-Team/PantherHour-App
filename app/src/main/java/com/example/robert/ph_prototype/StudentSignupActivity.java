@@ -50,8 +50,7 @@ public class StudentSignupActivity extends AppCompatActivity {
         StringBuffer stringBuffer = new StringBuffer("Details: \n");
         stringBuffer.append("Type: "+currentItem.getType()+"\n");
         stringBuffer.append("Room Number: "+currentItem.getRoom()+"\n");
-        stringBuffer.append("Time: "+currentItem.getTime()+"\n");
-        stringBuffer.append("Duration: "+currentItem.getDuration()+"\n");
+        stringBuffer.append("Time Frame: "+currentItem.getTimeFrame()+"\n");
         stringBuffer.append("Capacity: "+currentItem.getCapacity()+"\n");
         stringBuffer.append("Teacher: "+currentItem.getTeacher()+"\n");
         stringBuffer.append("Students: "+currentItem.getStudents());
