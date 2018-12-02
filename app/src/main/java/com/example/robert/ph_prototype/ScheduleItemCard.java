@@ -19,7 +19,7 @@ public class ScheduleItemCard implements Parcelable {
     private String capacity;
 
     public ScheduleItemCard(String name, String type, String room, String teacher, String timeFrame,
-                            String duration, String students, String capacity) {
+                            String students, String capacity) {
         this.name = name;
         this.type = type;
         this.room = room;
@@ -66,6 +66,22 @@ public class ScheduleItemCard implements Parcelable {
 
     public String getCapacity() {
         return capacity;
+    }
+
+    public String getStartDate() {
+        return timeFrame.split(" ")[0];
+    }
+
+    public String getStartTime() {
+        return timeFrame.split(" ")[1];
+    }
+
+    public String getEndDate(){
+        return timeFrame.split(" ")[2];
+    }
+
+    public String getEndTime(){
+        return timeFrame.split(" ")[3];
     }
 
     /* everything below here is for implementing Parcelable */

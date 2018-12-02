@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ScheduleItemCardArrayAdapter extends ArrayAdapter<ScheduleItemCard> {
@@ -67,7 +68,7 @@ public class ScheduleItemCardArrayAdapter extends ArrayAdapter<ScheduleItemCard>
         }
         ScheduleItemCard card = getItem(position);
         viewHolder.name.setText("Name: "+card.getName());
-        viewHolder.time.setText("Time: "+card.getTimeFrame());
+        viewHolder.time.setText("Time: "+card.getStartTime());
         viewHolder.room.setText("Room: "+card.getRoom());
         viewHolder.capacity.setText("Capacity: "+card.getCapacity());
         return row;
@@ -80,6 +81,19 @@ public class ScheduleItemCardArrayAdapter extends ArrayAdapter<ScheduleItemCard>
     public void reset() {
         cardList.clear();
         notifyDataSetChanged();
+    }
+
+    /**
+     *  Comparator for the adapter to sort each activity by its start time
+     */
+    public static Comparator<ScheduleItemCard> getComparator() {
+        return new Comparator<ScheduleItemCard>() {
+            @Override
+            public int compare(ScheduleItemCard a, ScheduleItemCard b) {
+                // Time Frame = "MM/DD/YYYY HH:MM:SS MM/DD/YYYY HH:MM:SS"
+                return a.getStartTime().compareTo(b.getEndTime());
+            }
+        };
     }
 
 }

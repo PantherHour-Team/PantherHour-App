@@ -48,6 +48,9 @@ public class StudentSchedulerActivity extends AppCompatActivity {
     private String userEmail;
     private boolean signupEnabled;
 
+    private String currRoomFilter = "All Rooms";
+    private String currTimeFilter = "All Time Slots";
+
     private Set<String> allRooms;
 
     @Override
@@ -132,13 +135,12 @@ public class StudentSchedulerActivity extends AppCompatActivity {
                 String type = fields.get("type");
                 String room = fields.get("room");
                 String teacher = fields.get("teacher");
-                String time = fields.get("time");
-                String duration = fields.get("duration");
+                String timeFrame = fields.get("time_frame");
                 String students = fields.get("students");
                 String capacity = fields.get("capacity");
 
                 ScheduleItemCard newActivity =
-                        new ScheduleItemCard(name, type, room, teacher, time, duration, students, capacity);
+                        new ScheduleItemCard(name, type, room, teacher, timeFrame, students, capacity);
                 scheduleItemCardArrayAdapter.add(newActivity);
                 allRooms.add(room);
                 activityIds.put(name, activity);
@@ -152,14 +154,13 @@ public class StudentSchedulerActivity extends AppCompatActivity {
                 String type = fields.get("type");
                 String room = fields.get("room");
                 String teacher = fields.get("teacher");
-                String time = fields.get("time");
-                String duration = fields.get("duration");
+                String timeFrame = fields.get("time_frame");
                 String students = fields.get("students");
                 String capacity = fields.get("capacity");
 
                 if (filter == ScheduleItemCard.Type.valueOf(type)) {
                     ScheduleItemCard newActivity =
-                            new ScheduleItemCard(name, type, room, teacher, time, duration, students, capacity);
+                            new ScheduleItemCard(name, type, room, teacher, timeFrame, students, capacity);
                     scheduleItemCardArrayAdapter.add(newActivity);
                     allRooms.add(room);
                 }
@@ -196,32 +197,16 @@ public class StudentSchedulerActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = (String) parent.getItemAtPosition(position);
-
-                if (selectedItem.equals("All Rooms")) {
-                    listView.setAdapter(scheduleItemCardArrayAdapter);
-                    return;
-                }
-
-                ArrayList<ScheduleItemCard> filteredList = new ArrayList<>();
-                for (int i = 0; i < scheduleItemCardArrayAdapter.getCount(); i++) {
-                    ScheduleItemCard current = scheduleItemCardArrayAdapter.getItem(i);
-                    Log.d("lol", current.getRoom()+" and "+selectedItem);
-                    if (current.getRoom().equals(selectedItem)) {
-                        filteredList.add(current);
-                    }
-                }
-                Log.d("lol", String.valueOf(scheduleItemCardArrayAdapter.getCount()));
-                ScheduleItemCardArrayAdapter filteredAdapter =
-                        new ScheduleItemCardArrayAdapter(getApplicationContext(),
-                                R.layout.schedule_item_card, filteredList);
-                listView.setAdapter(filteredAdapter);
+                currRoomFilter = selectedItem;
+                filterList();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // lol
             }
         });
+
+        // Populate room filter options with available choices
         List<String> rooms = new ArrayList<>();
         rooms.add("All Rooms");
         rooms.addAll(allRooms);
@@ -237,20 +222,56 @@ public class StudentSchedulerActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = (String) parent.getItemAtPosition(position);
+                currTimeFilter = selectedItem;
+                filterList();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // lol
             }
         });
-        String[] timeSlots = new String[]{"10:25 AM", "10:40 AM", "10:55 AM", "11:10 AM", "11:25 AM"};
+        String[] timeSlots = new String[]{"10:25", "10:40", "10:55", "11:10", "11:25"};
         ArrayList<String> times = new ArrayList<>();
         times.add("All Time Slots");
         times.addAll(Arrays.asList(timeSlots));
         ArrayAdapter<String> timeFilterAdapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, times);
         timeFilter.setAdapter(timeFilterAdapter);
+    }
+
+    private void filterList() {
+        if (currRoomFilter.equals("All Rooms") && currTimeFilter.equals("All Time Slots")) {
+            listView.setAdapter(scheduleItemCardArrayAdapter);
+            return;
+        }
+
+        boolean allRooms = currRoomFilter.equals("All Rooms");
+        boolean allTimes = currTimeFilter.equals("All Time Slots");
+
+        ArrayList<ScheduleItemCard> filteredList = new ArrayList<>();
+        for (int i = 0; i < scheduleItemCardArrayAdapter.getCount(); i++) {
+            ScheduleItemCard current = scheduleItemCardArrayAdapter.getItem(i);
+            if (allRooms) {
+                if (current.getStartTime().contains(currTimeFilter)) {
+                    filteredList.add(current);
+                }
+            } else if (allTimes) {
+                if (current.getRoom().equals(currRoomFilter)) {
+                    filteredList.add(current);
+                }
+            } else {
+                if (current.getRoom().equals(currRoomFilter)
+                        && current.getStartTime().contains(currTimeFilter)) {
+                    filteredList.add(current);
+                }
+            }
+        }
+
+        ScheduleItemCardArrayAdapter filteredAdapter =
+                new ScheduleItemCardArrayAdapter(getApplicationContext(),
+                        R.layout.schedule_item_card, filteredList);
+        filteredAdapter.sort(ScheduleItemCardArrayAdapter.getComparator());
+        listView.setAdapter(filteredAdapter);
     }
 
     @Override
