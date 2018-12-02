@@ -30,7 +30,7 @@ public class TeacherEditActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_teacher_main);
+        setContentView(R.layout.teacher_edit_activity);
 
         final ActivityObject act = new ActivityObject();
 
@@ -45,10 +45,14 @@ public class TeacherEditActivity extends AppCompatActivity {
 
 
         cancelButton = findViewById(R.id.cancelButton);
-        submitButton = findViewById(R.id.submit_btn);
+        submitButton = findViewById(R.id.updateButton);
 
 
         submitButton.setOnClickListener(new View.OnClickListener() {
+
+
+
+
             @Override
             public void onClick(View v) {
                 act.setCapacity(capacity.getText().toString());
@@ -61,8 +65,6 @@ public class TeacherEditActivity extends AppCompatActivity {
 
 
                 act.updateRoom();
-
-
 
                 Toast.makeText(getApplicationContext(),"Updated room successfully",Toast.LENGTH_LONG).show();
             }

@@ -11,7 +11,7 @@ public class TeacherAdminActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.teacher_manage_activity);
+        setContentView(R.layout.teacher_edit_activity);
 
 
 
