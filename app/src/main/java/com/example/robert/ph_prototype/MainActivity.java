@@ -29,9 +29,8 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference mRootReference = firebaseDatabase.getReference("Account");
 //
-    //DatabaseReference mAccountReference = mRootReference.child("account");
-
-    //DatabaseReference databaseAccounts;
+    DatabaseReference mAccountReference = mRootReference.child("account");
+    DatabaseReference databaseAccounts;
 
 
 

@@ -1,5 +1,6 @@
 package com.example.robert.ph_prototype;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
-public class StudentMainTabFragment extends Fragment {
+public class StudentMainTabFragment extends Activity {
     private String userFullName;
     private int userId;
 
@@ -27,13 +28,13 @@ public class StudentMainTabFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onCreate(LayoutInflater inflater, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.student_main_tab, container, false);
         TextView studentTitle = view.findViewById(R.id.student_main_title);
 
-        userFullName = getActivity().getIntent().getStringExtra("full_name");
-        userId = getActivity().getIntent().getIntExtra("user_id", -1);
+        userFullName = getIntent().getStringExtra("full_name");
+        userId = getIntent().getIntExtra("user_id", -1);
         studentTitle.setText("Welcome, "+userFullName+ " ID: "+userId);
         initButtons(view);
         return view;
@@ -44,8 +45,8 @@ public class StudentMainTabFragment extends Fragment {
         courseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Filter by course", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getActivity(), StudentSchedulerActivity.class);
+                Toast.makeText(getApplicationContext(), "Filter by course", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(StudentMainTabFragment.this, StudentSchedulerActivity.class);
                 intent.putExtra("FILTER", ScheduleItemCard.Type.COURSE_HELP.toString());
                 intent.putExtra("user_id", userId);
                 startActivity(intent);
@@ -56,8 +57,8 @@ public class StudentMainTabFragment extends Fragment {
         selfButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Filter by self directed", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getActivity(), StudentSchedulerActivity.class);
+                Toast.makeText(getApplicationContext(), "Filter by self directed", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(StudentMainTabFragment.this, StudentSchedulerActivity.class);
                 intent.putExtra("FILTER", ScheduleItemCard.Type.SELF_GUIDED.toString());
                 intent.putExtra("user_id", userId);
                 startActivity(intent);
@@ -68,8 +69,8 @@ public class StudentMainTabFragment extends Fragment {
         clubButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Filter by club", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getActivity(), StudentSchedulerActivity.class);
+                Toast.makeText(getApplicationContext(), "Filter by club", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(StudentMainTabFragment.this, StudentSchedulerActivity.class);
                 intent.putExtra("FILTER", ScheduleItemCard.Type.CLUB.toString());
                 intent.putExtra("user_id", userId);
                 startActivity(intent);
@@ -80,8 +81,8 @@ public class StudentMainTabFragment extends Fragment {
         allActivitiesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "See All Activities", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getActivity(), StudentSchedulerActivity.class);
+                Toast.makeText(getApplicationContext(), "See All Activities", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(StudentMainTabFragment.this, StudentSchedulerActivity.class);
                 intent.putExtra("FILTER", ScheduleItemCard.Type.ALL.toString());
                 intent.putExtra("user_id", userId);
                 startActivity(intent);

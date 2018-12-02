@@ -1,51 +1,55 @@
 package com.example.robert.ph_prototype;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.content.Intent;
+
 
 public class TeacherMainActivity extends AppCompatActivity {
+
+
+    private Button studentButton;
+    private Button manageButton;
+    private Button adminButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.student_navigation_activity);
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)
-                findViewById(R.id.navigation);
+        setContentView(R.layout.activity_teacher_main);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener
-                (new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        Fragment selectedFragment = null;
-                        switch (item.getItemId()) {
-                            case R.id.action_item1:
-                                selectedFragment = StudentMainTabFragment.newInstance();
-                                break;
-                            case R.id.action_item2:
-                                selectedFragment = TabTwoFragment.newInstance();
-                                break;
-                            case R.id.action_item3:
-                                selectedFragment = TabThreeFragment.newInstance();
-                                break;
-                        }
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.frame_layout, selectedFragment);
-                        transaction.commit();
-                        return true;
-                    }
-                });
+        studentButton = (Button) findViewById(R.id.student_request_btn);
+        studentButton.setOnClickListener(new View.OnClickListener() {
 
-        //Manually displaying the first fragment - one time only
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_layout, StudentMainTabFragment.newInstance());
-        transaction.commit();
+            @Override
+            public void onClick(View v) {
+                Intent newIntent = new Intent(getApplicationContext(), TeacherActivity.class);
+                startActivity(newIntent);
+            }
+        });
 
-        //Used to select an item programmatically
-        //bottomNavigationView.getMenu().getItem(2).setChecked(true);
+        manageButton = (Button) findViewById(R.id.manage_activites_btn);
+        manageButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent newIntent = new Intent(getApplicationContext(), TeacherManageActivity.class);
+                startActivity(newIntent);
+            }
+        });
+
+
+        adminButton = findViewById(R.id.admin_btn);
+        adminButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent newIntent = new Intent(getApplicationContext(), AdminActivity.class);
+                startActivity(newIntent);
+            }
+        });
+
+
+
     }
 }
