@@ -21,13 +21,6 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             tools:layout_editor_absoluteY="178dp" />
 
-        <Button
-            android:id="@+id/student_request_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10pt"
-            android:text="Student Requests" />
-
     <Button
         android:id="@+id/manage_activites_btn"
         android:layout_width="match_parent"

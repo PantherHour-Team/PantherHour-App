@@ -43,12 +43,12 @@
             android:label="@string/title_activity_scheduler"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".TeacherActivity"
-            android:label="@string/title_activity_teacher"
-            android:theme="@style/AppTheme.NoActionBar" />
+        android:name=".TeacherAdminActivity"
+        android:label="@string/title_activity_admin"></activity>
+
         <activity
-            android:name=".AdminActivity"
-            android:label="@string/title_activity_admin"></activity>
+            android:name=".TeacherEditActivity"
+            android:label="EditActivity"></activity>
 
         <activity
             android:name=".TeacherManageActivity"

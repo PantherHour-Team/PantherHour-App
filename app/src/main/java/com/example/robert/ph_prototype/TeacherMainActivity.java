@@ -10,7 +10,6 @@ import android.content.Intent;
 public class TeacherMainActivity extends AppCompatActivity {
 
 
-    private Button studentButton;
     private Button manageButton;
     private Button adminButton;
 
@@ -19,15 +18,6 @@ public class TeacherMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_main);
 
-        studentButton = (Button) findViewById(R.id.student_request_btn);
-        studentButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent newIntent = new Intent(getApplicationContext(), TeacherActivity.class);
-                startActivity(newIntent);
-            }
-        });
 
         manageButton = (Button) findViewById(R.id.manage_activites_btn);
         manageButton.setOnClickListener(new View.OnClickListener() {
@@ -43,7 +33,7 @@ public class TeacherMainActivity extends AppCompatActivity {
         adminButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent newIntent = new Intent(getApplicationContext(), AdminActivity.class);
+                Intent newIntent = new Intent(getApplicationContext(), TeacherAdminActivity.class);
                 startActivity(newIntent);
             }
         });
