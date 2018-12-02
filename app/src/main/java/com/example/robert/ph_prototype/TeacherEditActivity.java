@@ -51,8 +51,6 @@ public class TeacherEditActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
 
 
-
-
             @Override
             public void onClick(View v) {
                 act.setCapacity(capacity.getText().toString());
@@ -62,10 +60,14 @@ public class TeacherEditActivity extends AppCompatActivity {
 //                act.setStudents(students.getText().toString());
                 act.setTeacher(teacher.getText().toString());
 
-
+                if(type.getCheckedRadioButtonId() == R.id.clubRadio )
+                    act.setType("CLUB");
+                 else if(type.getCheckedRadioButtonId() == R.id.selfRadio)
+                    act.setType("SELF_GUIDED");
+                else
+                    act.setType("COURSE_HELP");
 
                 act.updateRoom();
-
                 Toast.makeText(getApplicationContext(),"Updated room successfully",Toast.LENGTH_LONG).show();
             }
         });

@@ -197,6 +197,14 @@
                 android:layout_weight="1">
 
                 <RadioButton
+                    android:id="@+id/courseRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="Course Help" />
+
+                <RadioButton
                     android:id="@+id/selfRadio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -210,13 +218,6 @@
                     android:layout_weight="1"
                     android:text="Club" />
 
-                <RadioButton
-                    android:id="@+id/courseRadio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checked="true"
-                    android:text="Course Help" />
             </RadioGroup>
 
         </LinearLayout>
