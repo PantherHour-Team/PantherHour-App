@@ -177,13 +177,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mRootReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                fullName =
-                        snapshot.child(safeEmail(mEmailView.getText().toString())).child("full_name").getValue(String.class);
-                userId =
-                        snapshot.child(safeEmail(mEmailView.getText().toString())).child("user_id").getValue(Integer.class);
-                accountType =
-                        snapshot.child(safeEmail(mEmailView.getText().toString())).child("account_type").getValue(Integer.class);
                 if (snapshot.hasChild(safeEmail(mEmailView.getText().toString()))) {
+                    fullName =
+                            snapshot.child(safeEmail(mEmailView.getText().toString())).child("full_name").getValue(String.class);
+                    userId =
+                            snapshot.child(safeEmail(mEmailView.getText().toString())).child("user_id").getValue(Integer.class);
+                    accountType =
+                            snapshot.child(safeEmail(mEmailView.getText().toString())).child("account_type").getValue(Integer.class);
                     emailValid();
                 }
                 else {
