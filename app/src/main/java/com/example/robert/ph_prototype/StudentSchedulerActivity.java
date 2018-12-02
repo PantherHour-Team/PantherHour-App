@@ -161,8 +161,8 @@ public class StudentSchedulerActivity extends AppCompatActivity {
                     ScheduleItemCard newActivity =
                             new ScheduleItemCard(name, type, room, teacher, time, duration, students, capacity);
                     scheduleItemCardArrayAdapter.add(newActivity);
+                    allRooms.add(room);
                 }
-                allRooms.add(room);
                 activityIds.put(name, activity);
             }
         }
