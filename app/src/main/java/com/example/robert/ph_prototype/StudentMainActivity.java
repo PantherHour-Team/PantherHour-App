@@ -67,7 +67,7 @@ public class StudentMainActivity extends Activity {
         courseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Filter by course", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "Filter by course", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(StudentMainActivity.this, StudentSchedulerActivity.class);
                 intent.putExtra("FILTER", ScheduleItemCard.Type.COURSE_HELP.toString());
                 intent.putExtra("user_id", userId);
@@ -81,7 +81,7 @@ public class StudentMainActivity extends Activity {
         selfButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Filter by self directed", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "Filter by self directed", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(StudentMainActivity.this, StudentSchedulerActivity.class);
                 intent.putExtra("FILTER", ScheduleItemCard.Type.SELF_GUIDED.toString());
                 intent.putExtra("user_id", userId);
@@ -95,7 +95,7 @@ public class StudentMainActivity extends Activity {
         clubButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Filter by club", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "Filter by club", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(StudentMainActivity.this, StudentSchedulerActivity.class);
                 intent.putExtra("FILTER", ScheduleItemCard.Type.CLUB.toString());
                 intent.putExtra("user_id", userId);
@@ -109,7 +109,7 @@ public class StudentMainActivity extends Activity {
         allActivitiesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "See My Activities", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "See My Activities", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(StudentMainActivity.this, StudentSchedulerActivity.class);
                 intent.putExtra("FILTER", ScheduleItemCard.Type.MINE.toString());
                 intent.putExtra("user_id", userId);

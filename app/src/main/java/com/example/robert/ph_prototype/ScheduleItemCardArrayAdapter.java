@@ -27,6 +27,12 @@ public class ScheduleItemCardArrayAdapter extends ArrayAdapter<ScheduleItemCard>
         super(context, textViewResourceId);
     }
 
+    public ScheduleItemCardArrayAdapter(Context context, int textViewResourceId,
+                                        ArrayList<ScheduleItemCard> cardList) {
+        super(context, textViewResourceId);
+        this.cardList = cardList;
+    }
+
     @Override
     public void add(ScheduleItemCard object) {
         cardList.add(object);
@@ -75,4 +81,5 @@ public class ScheduleItemCardArrayAdapter extends ArrayAdapter<ScheduleItemCard>
         cardList.clear();
         notifyDataSetChanged();
     }
+
 }

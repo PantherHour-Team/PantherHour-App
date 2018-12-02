@@ -22,9 +22,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class StudentSchedulerActivity extends AppCompatActivity {
@@ -46,6 +48,8 @@ public class StudentSchedulerActivity extends AppCompatActivity {
     private String userEmail;
     private boolean signupEnabled;
 
+    private Set<String> allRooms;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +63,7 @@ public class StudentSchedulerActivity extends AppCompatActivity {
         filter = ScheduleItemCard.Type.valueOf(i.getStringExtra("FILTER"));
         Log.d("nshinn", filter.toString());
 
+        allRooms = new HashSet<>();
         mRootReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -135,6 +140,7 @@ public class StudentSchedulerActivity extends AppCompatActivity {
                 ScheduleItemCard newActivity =
                         new ScheduleItemCard(name, type, room, teacher, time, duration, students, capacity);
                 scheduleItemCardArrayAdapter.add(newActivity);
+                allRooms.add(room);
                 activityIds.put(name, activity);
             }
         } else {
@@ -156,9 +162,12 @@ public class StudentSchedulerActivity extends AppCompatActivity {
                             new ScheduleItemCard(name, type, room, teacher, time, duration, students, capacity);
                     scheduleItemCardArrayAdapter.add(newActivity);
                 }
+                allRooms.add(room);
                 activityIds.put(name, activity);
             }
         }
+        // Reinitialize room filter to populate with all rooms
+        initRoomFilter();
     }
 
     private void initFAB() {
@@ -176,41 +185,69 @@ public class StudentSchedulerActivity extends AppCompatActivity {
     }
 
     private void initDropdownFilters() {
+        initTimeFilter();
+        initRoomFilter();
+    }
 
+    private void initRoomFilter() {
         // Set up room filter
         Spinner roomFilter = findViewById(R.id.room_filter);
         roomFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = (String) parent.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_SHORT).show();
+
+                if (selectedItem.equals("All Rooms")) {
+                    listView.setAdapter(scheduleItemCardArrayAdapter);
+                    return;
+                }
+
+                ArrayList<ScheduleItemCard> filteredList = new ArrayList<>();
+                for (int i = 0; i < scheduleItemCardArrayAdapter.getCount(); i++) {
+                    ScheduleItemCard current = scheduleItemCardArrayAdapter.getItem(i);
+                    Log.d("lol", current.getRoom()+" and "+selectedItem);
+                    if (current.getRoom().equals(selectedItem)) {
+                        filteredList.add(current);
+                    }
+                }
+                Log.d("lol", String.valueOf(scheduleItemCardArrayAdapter.getCount()));
+                ScheduleItemCardArrayAdapter filteredAdapter =
+                        new ScheduleItemCardArrayAdapter(getApplicationContext(),
+                                R.layout.schedule_item_card, filteredList);
+                listView.setAdapter(filteredAdapter);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // AAAA
+                // lol
             }
         });
-        String[] rooms = new String[]{"All Rooms", "Room 1", "Room 2"};
+        List<String> rooms = new ArrayList<>();
+        rooms.add("All Rooms");
+        rooms.addAll(allRooms);
         ArrayAdapter<String> roomFilterAdapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, rooms);
         roomFilter.setAdapter(roomFilterAdapter);
+    }
 
+    private void initTimeFilter() {
         // Set up time filter
         Spinner timeFilter = findViewById(R.id.time_filter);
-        roomFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        timeFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = (String) parent.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // AAAA
+                // lol
             }
         });
-        String[] times = new String[]{"All Time Slots", "2:00 PM", "3:00 PM"};
+        String[] timeSlots = new String[]{"10:25 AM", "10:40 AM", "10:55 AM", "11:10 AM", "11:25 AM"};
+        ArrayList<String> times = new ArrayList<>();
+        times.add("All Time Slots");
+        times.addAll(Arrays.asList(timeSlots));
         ArrayAdapter<String> timeFilterAdapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, times);
         timeFilter.setAdapter(timeFilterAdapter);
