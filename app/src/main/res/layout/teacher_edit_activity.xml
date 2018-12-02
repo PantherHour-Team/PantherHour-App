@@ -2,6 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/containerlay"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -16,7 +17,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Manage Room"
+        android:text="Manage Activity"
         android:textAlignment="center"
         android:textSize="30sp" />
 
@@ -24,7 +25,32 @@
         android:id="@+id/caption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="5pt"
+        android:paddingTop="5pt"
         android:text="@string/change_room_string_action_settings" />
+
+    <LinearLayout
+        android:id="@+id/actnamelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/Teacherlabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Activity Name:" />
+
+        <EditText
+            android:id="@+id/activityNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Activity Name"
+            android:inputType="text" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/room_num_layout"
@@ -50,29 +76,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/class_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/ActivittyLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Class Name:" />
-
-        <EditText
-            android:id="@+id/classNameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Class Name"
-            android:inputType="text" />
-    </LinearLayout>
-
-    <LinearLayout
+        android:id="@+id/teacherLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
@@ -95,6 +99,54 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/durationLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/roomNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Duration:" />
+
+        <EditText
+            android:id="@+id/durationBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Minutes"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/capacityLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/timelabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Capacity:" />
+
+        <EditText
+            android:id="@+id/capacityBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Size"
+            android:inputType="number" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/timeSlotLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
@@ -112,84 +164,78 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
+            android:hint="Time"
             android:inputType="time" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/clubname_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/ActivittyLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Room Club:" />
-
-        <EditText
-            android:id="@+id/clubNameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Club Name"
-            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/actname_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5pt"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/ActivittyLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Room Activity:" />
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/activityNameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Activity Name"
-            android:inputType="text" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/ActivittyLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="5pt"
+                android:text="Activity Type:" />
 
-    <LinearLayout
-        android:id="@+id/avail_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/available"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Available?" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-        <ToggleButton
-            android:id="@+id/availableButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:checked="false"
-            android:text="ToggleButton"
-            android:textOff="Unavailable"
-            android:textOn="Available" />
+                    <RadioButton
+                        android:id="@+id/courseRadio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="Course Help" />
+
+                    <RadioButton
+                        android:id="@+id/selfRadio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Self" />
+
+                    <RadioButton
+                        android:id="@+id/clubRadio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Club" />
+                </LinearLayout>
+
+            </RadioGroup>
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/submitlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="5pt"
         android:orientation="horizontal">
 
         <Button
@@ -197,7 +243,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Reload" />
+            android:text="Cancel" />
 
         <Button
             android:id="@+id/updateButton"
