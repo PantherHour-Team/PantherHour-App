@@ -18,7 +18,8 @@ class StudentSignupActivity extends AppCompatActivity {
 
     ScheduleItemCard currentItem;
 
-    String activityID;
+    private String activityID;
+    private int userId;
 
     TextView text;
     Button goBackButton;
@@ -30,6 +31,7 @@ class StudentSignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_signup);
 
         Intent i = getIntent();
+        userId = i.getIntExtra("user_id", -1);
         currentItem = (ScheduleItemCard) i.getParcelableExtra("parcelable_item");
         activityID = i.getStringExtra("activity_id");
 
@@ -78,7 +80,7 @@ class StudentSignupActivity extends AppCompatActivity {
                     mRootReference.child(activityID)
                             .child("capacity").setValue((currentCapacity+1)+"/"+maxCapacity);
                     mRootReference.child(activityID)
-                            .child("students").setValue(currentItem.getStudents()+" 111");
+                            .child("students").setValue(currentItem.getStudents()+" "+userId);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

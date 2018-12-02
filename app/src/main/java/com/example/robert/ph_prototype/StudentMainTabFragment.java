@@ -7,9 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 public class StudentMainTabFragment extends Fragment {
+    private String userFullName;
+    private int userId;
 
     public static StudentMainTabFragment newInstance() {
         StudentMainTabFragment fragment = new StudentMainTabFragment();
@@ -25,6 +30,11 @@ public class StudentMainTabFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.student_main_tab, container, false);
+        TextView studentTitle = view.findViewById(R.id.student_main_title);
+
+        userFullName = getActivity().getIntent().getStringExtra("full_name");
+        userId = getActivity().getIntent().getIntExtra("user_id", -1);
+        studentTitle.setText("Welcome, "+userFullName+ " ID: "+userId);
         initButtons(view);
         return view;
     }
@@ -37,6 +47,7 @@ public class StudentMainTabFragment extends Fragment {
                 Toast.makeText(getContext(), "Filter by course", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), StudentSchedulerActivity.class);
                 intent.putExtra("FILTER", ScheduleItemCard.Type.COURSE_HELP.toString());
+                intent.putExtra("user_id", userId);
                 startActivity(intent);
             }
         });
@@ -48,6 +59,7 @@ public class StudentMainTabFragment extends Fragment {
                 Toast.makeText(getContext(), "Filter by self directed", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), StudentSchedulerActivity.class);
                 intent.putExtra("FILTER", ScheduleItemCard.Type.SELF_GUIDED.toString());
+                intent.putExtra("user_id", userId);
                 startActivity(intent);
             }
         });
@@ -59,6 +71,7 @@ public class StudentMainTabFragment extends Fragment {
                 Toast.makeText(getContext(), "Filter by club", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), StudentSchedulerActivity.class);
                 intent.putExtra("FILTER", ScheduleItemCard.Type.CLUB.toString());
+                intent.putExtra("user_id", userId);
                 startActivity(intent);
             }
         });
@@ -70,6 +83,7 @@ public class StudentMainTabFragment extends Fragment {
                 Toast.makeText(getContext(), "See All Activities", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), StudentSchedulerActivity.class);
                 intent.putExtra("FILTER", ScheduleItemCard.Type.ALL.toString());
+                intent.putExtra("user_id", userId);
                 startActivity(intent);
             }
         });

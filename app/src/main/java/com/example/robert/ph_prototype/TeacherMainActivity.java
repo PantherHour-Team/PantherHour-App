@@ -13,7 +13,7 @@ public class TeacherMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.navigation_activity);
+        setContentView(R.layout.student_navigation_activity);
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.navigation);
 

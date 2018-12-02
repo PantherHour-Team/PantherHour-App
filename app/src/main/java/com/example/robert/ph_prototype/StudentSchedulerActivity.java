@@ -37,6 +37,7 @@ public class StudentSchedulerActivity extends AppCompatActivity {
     private ListView listView;
 
     private ScheduleItemCard.Type filter;
+    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class StudentSchedulerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_scheduler);
 
         Intent i = getIntent();
+        userId = i.getIntExtra("user_id", -1);
         filter = ScheduleItemCard.Type.valueOf(i.getStringExtra("FILTER"));
         Log.d("nshinn", filter.toString());
 
@@ -80,6 +82,7 @@ public class StudentSchedulerActivity extends AppCompatActivity {
                 Intent intent = new Intent(StudentSchedulerActivity.this, StudentSignupActivity.class);
                 intent.putExtra("parcelable_item", (Parcelable) selectedItem);
                 intent.putExtra("activity_id", activityIds.get(selectedItem.getName()));
+                intent.putExtra("user_id", userId);
                 startActivity(intent);
             }
         });

@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -67,6 +66,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
+
+    private String fullName;
+    private int userId;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -174,6 +176,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mRootReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
+                fullName =
+                        snapshot.child(safeEmail(mEmailView.getText().toString())).child("full_name").getValue(String.class);
+                userId =
+                        snapshot.child(safeEmail(mEmailView.getText().toString())).child("user_id").getValue(Integer.class);
                 if (snapshot.hasChild(safeEmail(mEmailView.getText().toString()))) {
                     emailValid();
                 }
@@ -185,7 +191,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onCancelled(DatabaseError error) {}
         });
-
     }
 
     public void emailValid() {
@@ -401,7 +406,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 finish();
-                startActivity(new Intent(LoginActivity.this, NavigationActivity.class));
+                startStudentActivity();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -413,6 +418,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
+    }
+
+    private void startStudentActivity() {
+        Intent intent = new Intent(LoginActivity.this, StudentMainNavigationActivity.class);
+        intent.putExtra("full_name", fullName);
+        intent.putExtra("user_id", userId);
+        startActivity(intent);
     }
 
     private String safeEmail(String email) {
