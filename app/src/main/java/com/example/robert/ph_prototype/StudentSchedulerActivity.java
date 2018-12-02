@@ -1,11 +1,14 @@
 package com.example.robert.ph_prototype;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -179,8 +182,22 @@ public class StudentSchedulerActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(StudentSchedulerActivity.this);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder.setTitle("Activity Help")
+                            .setMessage("The color or the activity border indicates its activity type.")
+                            .setView(R.layout.help_dialog)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Current Device API does not meet" +
+                            " the requirements", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

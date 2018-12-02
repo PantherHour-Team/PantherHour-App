@@ -3,6 +3,8 @@ package com.example.robert.ph_prototype;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,10 +69,27 @@ public class ScheduleItemCardArrayAdapter extends ArrayAdapter<ScheduleItemCard>
             viewHolder = (CardViewHolder)row.getTag();
         }
         ScheduleItemCard card = getItem(position);
-        viewHolder.name.setText("Name: "+card.getName());
+        viewHolder.name.setText("Title: "+card.getName());
         viewHolder.time.setText("Time: "+card.getStartTime());
         viewHolder.room.setText("Room: "+card.getRoom());
         viewHolder.capacity.setText("Capacity: "+card.getCapacity());
+
+        // Coloring scheme
+        switch (ScheduleItemCard.Type.valueOf(card.getType())) {
+            case COURSE_HELP:
+                row.setBackground(ContextCompat.getDrawable(this.getContext(),
+                        R.drawable.rounded_corners_dkgray));
+                break;
+            case SELF_GUIDED:
+                row.setBackground(ContextCompat.getDrawable(this.getContext(),
+                        R.drawable.rounded_corners_blue));
+                break;
+            case CLUB:
+                row.setBackground(ContextCompat.getDrawable(this.getContext(),
+                        R.drawable.rounded_corners_magenta));
+                break;
+        }
+
         return row;
     }
 
