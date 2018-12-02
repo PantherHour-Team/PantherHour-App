@@ -35,7 +35,7 @@
                 android:layout_margin="10pt"
                 android:padding="10pt"
                 android:text="Get course help"
-                android:background="@android:color/holo_red_dark"
+                android:background="@drawable/rounded_corners"
                 android:textColor="@android:color/white"/>
 
             <Button
@@ -45,7 +45,7 @@
                 android:layout_margin="10pt"
                 android:padding="10pt"
                 android:text="Self directed activity"
-                android:background="@android:color/holo_red_dark"
+                android:background="@drawable/rounded_corners"
                 android:textColor="@android:color/white"/>
 
             <Button
@@ -55,7 +55,7 @@
                 android:layout_margin="10pt"
                 android:padding="10pt"
                 android:text="Student club"
-                android:background="@android:color/holo_red_dark"
+                android:background="@drawable/rounded_corners"
                 android:textColor="@android:color/white"/>
 
             <Button
@@ -65,7 +65,7 @@
                 android:layout_margin="10pt"
                 android:padding="10pt"
                 android:text="See My Activities"
-                android:background="@android:color/holo_red_dark"
+                android:background="@drawable/rounded_corners"
                 android:textColor="@android:color/white"/>
 
 
