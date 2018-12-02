@@ -1,8 +1,10 @@
 package com.example.robert.ph_prototype;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,15 +13,20 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-class StudentSignupActivity extends AppCompatActivity {
+public class StudentSignupActivity extends AppCompatActivity {
     private static String REFERENCE = "ActivityCollection";
+    private static String REFERENCE_2 = "Account";
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference mRootReference = firebaseDatabase.getReference(REFERENCE);
+    DatabaseReference mRootReference2 = firebaseDatabase.getReference(REFERENCE_2);
 
     ScheduleItemCard currentItem;
 
     private String activityID;
+    private String activities;
+    private String userEmail;
     private int userId;
+    private boolean signupEnabled;
 
     TextView text;
     Button goBackButton;
@@ -34,7 +41,9 @@ class StudentSignupActivity extends AppCompatActivity {
         userId = i.getIntExtra("user_id", -1);
         currentItem = (ScheduleItemCard) i.getParcelableExtra("parcelable_item");
         activityID = i.getStringExtra("activity_id");
-
+        activities = i.getStringExtra("activities");
+        userEmail = i.getStringExtra("user_email");
+        signupEnabled = i.getBooleanExtra("signup_enabled", true);
         text = findViewById(R.id.signup_tv);
         text.setText(currentItem.getName());
 
@@ -59,33 +68,60 @@ class StudentSignupActivity extends AppCompatActivity {
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_CANCELED, returnIntent);
+                finish();
             }
         });
 
         signUpButton = (Button) findViewById(R.id.signup_btn);
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Signing Up...", Toast.LENGTH_SHORT).show();
-                int currentCapacity = Integer.valueOf(currentItem.getCapacity().split("/")[0]);
-                int maxCapacity = Integer.valueOf(currentItem.getCapacity().split("/")[1]);
+        if (signupEnabled) {
+            signUpButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int currentCapacity = Integer.valueOf(currentItem.getCapacity().split("/")[0]);
+                    int maxCapacity = Integer.valueOf(currentItem.getCapacity().split("/")[1]);
 
-                if (currentCapacity+1 > maxCapacity) {
-                    Toast.makeText(getApplicationContext(), "Sucks to suck", Toast.LENGTH_LONG).show();
-                    return;
-                }
+                    if (currentCapacity+1 > maxCapacity) {
+                        Toast.makeText(getApplicationContext(),
+                                "Activity has reached max capacity",
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    Log.d("lol", activityID);
+                    if (!activities.equals("") && activities.contains(activityID)) {
+                        Toast.makeText(getApplicationContext(),
+                                "Already signed up for this activity (dummy)",
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
 
-                try {
-                    mRootReference.child(activityID)
-                            .child("capacity").setValue((currentCapacity+1)+"/"+maxCapacity);
-                    mRootReference.child(activityID)
-                            .child("students").setValue(currentItem.getStudents()+" "+userId);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    try {
+                        mRootReference.child(activityID)
+                                .child("capacity").setValue((currentCapacity+1)+"/"+maxCapacity);
+                        mRootReference.child(activityID)
+                                .child("students")
+                                .setValue((currentItem.getStudents().equals(""))
+                                        ? String.valueOf(userId) : currentItem.getStudents()+" "+userId);
+                        mRootReference2.child(safeEmail(userEmail))
+                                .child("activities")
+                                .setValue((activities.equals(""))
+                                        ? activityID : activities+" "+activityID);
+                        Toast.makeText(getApplicationContext(), "Activity Added!", Toast.LENGTH_LONG).show();
+                        Intent returnIntent = new Intent();
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            signUpButton.setVisibility(View.INVISIBLE);
+        }
     }
 
+    private String safeEmail(String email) {
+        return email.replace("@","(AT)").replace(".","(DOT)");
+    }
 }

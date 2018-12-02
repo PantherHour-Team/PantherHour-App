@@ -7,7 +7,7 @@ public class ScheduleItemCard implements Parcelable {
 
     enum Type
     {
-        COURSE_HELP, SELF_GUIDED, CLUB, ALL
+        COURSE_HELP, SELF_GUIDED, CLUB, MINE
     }
 
     private String name;

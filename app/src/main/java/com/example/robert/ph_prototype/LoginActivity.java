@@ -69,6 +69,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private String fullName;
     private int userId;
+    private int accountType;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -180,6 +181,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         snapshot.child(safeEmail(mEmailView.getText().toString())).child("full_name").getValue(String.class);
                 userId =
                         snapshot.child(safeEmail(mEmailView.getText().toString())).child("user_id").getValue(Integer.class);
+                accountType =
+                        snapshot.child(safeEmail(mEmailView.getText().toString())).child("account_type").getValue(Integer.class);
                 if (snapshot.hasChild(safeEmail(mEmailView.getText().toString()))) {
                     emailValid();
                 }
@@ -406,7 +409,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 finish();
-                startStudentActivity();
+                if (accountType == 1) {
+                    startTeacherActivtiy();
+                } else {
+                    startStudentActivity();
+                }
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -421,7 +428,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void startStudentActivity() {
-        Intent intent = new Intent(LoginActivity.this, StudentMainNavigationActivity.class);
+        Intent intent = new Intent(LoginActivity.this, StudentMainActivity.class);
+        intent.putExtra("full_name", fullName);
+        intent.putExtra("user_id", userId);
+        intent.putExtra("user_email", mEmailView.getText().toString());
+        startActivity(intent);
+    }
+
+    private void startTeacherActivtiy() {
+        Intent intent = new Intent(LoginActivity.this, TeacherMainActivity.class);
         intent.putExtra("full_name", fullName);
         intent.putExtra("user_id", userId);
         startActivity(intent);
@@ -431,13 +446,5 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         return email.replace("@","(AT)").replace(".","(DOT)");
     }
 
-    private int whatKind(String s) {
-        if(s.equals("Student")) {
-            return 0;
-        }
-        else {
-            return 1;
-        }
-    }
 }
 

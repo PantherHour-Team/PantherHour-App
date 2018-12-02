@@ -1,5 +1,6 @@
 package com.example.robert.ph_prototype;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -21,7 +22,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class StudentSchedulerActivity extends AppCompatActivity {
     private static final String TAG = "lol";
@@ -38,6 +42,9 @@ public class StudentSchedulerActivity extends AppCompatActivity {
 
     private ScheduleItemCard.Type filter;
     private int userId;
+    private String activities;
+    private String userEmail;
+    private boolean signupEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +53,17 @@ public class StudentSchedulerActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         userId = i.getIntExtra("user_id", -1);
+        activities = i.getStringExtra("activities");
+        userEmail = i.getStringExtra("user_email");
+        signupEnabled = i.getBooleanExtra("signup_enabled", true);
         filter = ScheduleItemCard.Type.valueOf(i.getStringExtra("FILTER"));
         Log.d("nshinn", filter.toString());
 
         mRootReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                allActivities = (HashMap<String, HashMap<String, String>>) dataSnapshot.getValue();
+                allActivities =
+                        (HashMap<String, HashMap<String, String>>) dataSnapshot.getValue();
                 parseActivityData(scheduleItemCardArrayAdapter);
                 Log.d(TAG, "List of activities: " + allActivities);
             }
@@ -82,8 +93,11 @@ public class StudentSchedulerActivity extends AppCompatActivity {
                 Intent intent = new Intent(StudentSchedulerActivity.this, StudentSignupActivity.class);
                 intent.putExtra("parcelable_item", (Parcelable) selectedItem);
                 intent.putExtra("activity_id", activityIds.get(selectedItem.getName()));
+                intent.putExtra("activities", activities);
                 intent.putExtra("user_id", userId);
-                startActivity(intent);
+                intent.putExtra("user_email", userEmail);
+                intent.putExtra("signup_enabled", signupEnabled);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -101,27 +115,49 @@ public class StudentSchedulerActivity extends AppCompatActivity {
             scheduleItemCardArrayAdapter.reset();
             activityIds.clear();
         }
-        for (String activity : allActivities.keySet()) {
-            HashMap<String, String> fields = (HashMap<String, String>) allActivities.get(activity);
-            Log.d(TAG, fields.toString());
+        if (filter == ScheduleItemCard.Type.MINE) {
+            if (activities == null || activities.equals("")) return;
+            Set<String> idSet = new HashSet<>();
+            idSet.addAll(Arrays.asList(activities.split(" ")));
+            for (String activity : idSet) {
+                HashMap<String, String> fields = (HashMap<String, String>) allActivities.get(activity);
+                Log.d(TAG, fields.toString());
 
-            String name = fields.get("name");
-            String type = fields.get("type");
-            String room = fields.get("room");
-            String teacher = fields.get("teacher");
-            String time = fields.get("time");
-            String duration = fields.get("duration");
-            String students = fields.get("students");
-            String capacity = fields.get("capacity");
+                String name = fields.get("name");
+                String type = fields.get("type");
+                String room = fields.get("room");
+                String teacher = fields.get("teacher");
+                String time = fields.get("time");
+                String duration = fields.get("duration");
+                String students = fields.get("students");
+                String capacity = fields.get("capacity");
 
-            if (filter == ScheduleItemCard.Type.ALL ||
-                    filter == ScheduleItemCard.Type.valueOf(type)) {
                 ScheduleItemCard newActivity =
                         new ScheduleItemCard(name, type, room, teacher, time, duration, students, capacity);
                 scheduleItemCardArrayAdapter.add(newActivity);
+                activityIds.put(name, activity);
             }
+        } else {
+            for (String activity : allActivities.keySet()) {
+                HashMap<String, String> fields = (HashMap<String, String>) allActivities.get(activity);
+                Log.d(TAG, fields.toString());
 
-            activityIds.put(name, activity);
+                String name = fields.get("name");
+                String type = fields.get("type");
+                String room = fields.get("room");
+                String teacher = fields.get("teacher");
+                String time = fields.get("time");
+                String duration = fields.get("duration");
+                String students = fields.get("students");
+                String capacity = fields.get("capacity");
+
+                if (filter == ScheduleItemCard.Type.valueOf(type)) {
+                    ScheduleItemCard newActivity =
+                            new ScheduleItemCard(name, type, room, teacher, time, duration, students, capacity);
+                    scheduleItemCardArrayAdapter.add(newActivity);
+                }
+                activityIds.put(name, activity);
+            }
         }
     }
 
@@ -178,6 +214,19 @@ public class StudentSchedulerActivity extends AppCompatActivity {
         ArrayAdapter<String> timeFilterAdapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, times);
         timeFilter.setAdapter(timeFilterAdapter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                onBackPressed();
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
     }
 
 }
