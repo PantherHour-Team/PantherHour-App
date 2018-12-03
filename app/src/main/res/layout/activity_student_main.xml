@@ -46,8 +46,11 @@
                 android:id="@+id/course_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10pt"
-                android:padding="10pt"
+                android:layout_marginTop="10pt"
+                android:layout_marginStart="5pt"
+                android:layout_marginEnd="5pt"
+                android:layout_marginBottom="5pt"
+                android:padding="5pt"
                 android:text="Get course help"
                 android:background="@drawable/rounded_corners"
                 android:textColor="@android:color/white"/>
@@ -56,8 +59,8 @@
                 android:id="@+id/selfdirect_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10pt"
-                android:padding="10pt"
+                android:layout_margin="5pt"
+                android:padding="5pt"
                 android:text="Self directed activity"
                 android:background="@drawable/rounded_corners"
                 android:textColor="@android:color/white"/>
@@ -66,21 +69,45 @@
                 android:id="@+id/club_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10pt"
-                android:padding="10pt"
+                android:layout_marginTop="5pt"
+                android:layout_marginStart="5pt"
+                android:layout_marginEnd="5pt"
+                android:layout_marginBottom="10pt"
+                android:padding="5pt"
                 android:text="Student club"
                 android:background="@drawable/rounded_corners"
                 android:textColor="@android:color/white"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="#60000000"/>
 
             <Button
                 android:id="@+id/all_activities_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10pt"
-                android:padding="10pt"
+                android:layout_marginTop="10pt"
+                android:layout_marginStart="5pt"
+                android:layout_marginEnd="5pt"
+                android:layout_marginBottom="5pt"
+                android:padding="5pt"
                 android:text="See My Activities"
                 android:background="@drawable/rounded_corners"
                 android:textColor="@android:color/white"/>
+
+            <ImageView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/panthers_foreground"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="(C) PantherApps.com"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
         </LinearLayout>
 

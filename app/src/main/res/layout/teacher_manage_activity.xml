@@ -30,6 +30,8 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         android:orientation="horizontal"
         android:layout_marginTop="@dimen/appbar_padding_top"
         android:gravity="center">
@@ -60,6 +62,13 @@
 
     </LinearLayout>
 
+    <View
+        app:layout_constraintTop_toBottomOf="@id/filter_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="5dp"
+        android:background="#60000000"/>
+
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         app:layout_constraintTop_toBottomOf="@id/filter_layout"
@@ -67,6 +76,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         android:background="@android:color/transparent">
 
         <ListView
