@@ -88,7 +88,7 @@ public class TeacherManageActivity extends AppCompatActivity {
                 ActivityModel selectedItem = (ActivityModel) parent.getItemAtPosition(position);
                 Intent intent = new Intent(TeacherManageActivity.this, TeacherEditActivity.class);
                 intent.putExtra("parcelable_item", (Parcelable) selectedItem);
-                intent.putExtra("activity_id", activityIds.get(selectedItem.getName()));
+                intent.putExtra("id", activityIds.get(selectedItem.getName()));
                 startActivityForResult(intent, 1);
             }
         });

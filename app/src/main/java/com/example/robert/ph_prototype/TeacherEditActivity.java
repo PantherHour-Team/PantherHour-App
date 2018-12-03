@@ -20,9 +20,7 @@ import android.widget.TimePicker;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 
-
 import com.google.firebase.database.FirebaseDatabase;
-
 
 public class TeacherEditActivity extends AppCompatActivity {
 
@@ -47,24 +45,22 @@ public class TeacherEditActivity extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_edit_activity);
         boolean isAdd = getIntent().getBooleanExtra("add_activity", false);
 
-        // Get the parameters from intent
-        Bundle bundle = getIntent().getExtras();
-
-        if (bundle != null) {
-            act_id = bundle.getString("id");
-            act = loadAct(act_id);
-        } else {
-            act = new ActivityModel();
-            students = "";
-        }
-
+//        // Get the parameters from intent
+//        Bundle bundle = getIntent().getExtras();
+//
+//        if (bundle != null) {
+//            act_id = bundle.getString("id");
+//            act = loadAct(act_id);
+//        } else {
+//            act = new ActivityModel();
+//            students = "";
+//        }
 
         capacity = findViewById(R.id.capacityBox);
         name = findViewById(R.id.activityNameText);
@@ -194,21 +190,38 @@ public class TeacherEditActivity extends AppCompatActivity {
             ActivityModel currentItem =
                     (ActivityModel) getIntent().getParcelableExtra("parcelable_item");
 
-            name.setText(currentItem.getName());
-            room.setText(currentItem.getRoom());
-            teacher.setText(currentItem.getTeacher());
-            capacity.setText(currentItem.getCapacity());
-            time.setText(currentItem.getTimeFrame());
-            switch (ActivityModel.Type.valueOf(currentItem.getType())) {
-                case CLUB:
-                    type.check(R.id.clubRadio);
-                    break;
-                case SELF_GUIDED:
-                    type.check(R.id.selfRadio);
-                    break;
-                case COURSE_HELP:
-                    type.check(R.id.courseRadio);
-                    break;
+            capacity = findViewById(R.id.capacityBox);
+            name = findViewById(R.id.activityNameText);
+            room = findViewById(R.id.roomNumberBox);
+            teacher = findViewById(R.id.teacherNameText);
+            startTime = findViewById(R.id.startText);
+            endTime = findViewById(R.id.endText);
+
+            clubRadio = findViewById(R.id.clubRadio);
+            courseRadio = findViewById(R.id.courseRadio);
+            selfRadio = findViewById(R.id.selfRadio);
+
+            if (currentItem.getRoom() != null) {
+                capacity.setText(currentItem.getCapacity());
+                name.setText(currentItem.getName());
+                room.setText(currentItem.getRoom());
+                teacher.setText(currentItem.getTeacher());
+
+                // Need to parse here
+                String start = currentItem.getTimeFrame().substring(0,currentItem.getTimeFrame().length()/2);
+                String end = currentItem.getTimeFrame().substring(currentItem.getTimeFrame().length()/2);
+
+                startTime.setText(start);
+                endTime.setText(end);
+
+                if (currentItem.getType().equals("CLUB"))
+                    clubRadio.setChecked(true);
+                else if (currentItem.getType().equals("SELF_GUIDED"))
+                    selfRadio.setChecked(true);
+                else
+                    courseRadio.setChecked(true);
+
+                students = currentItem.getStudents();
             }
         }
 
@@ -234,6 +247,7 @@ public class TeacherEditActivity extends AppCompatActivity {
 
                     act.submitActivity();
                     Toast.makeText(getApplicationContext(), "Updated activity successfully", Toast.LENGTH_LONG).show();
+                    setResult(RESULT_OK);
                     finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "Please fill out the form before submitting", Toast.LENGTH_LONG).show();
@@ -247,12 +261,12 @@ public class TeacherEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Changes were not saved", Toast.LENGTH_LONG).show();
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });
 
     }
-
 
     public ActivityModel loadAct(String id) {
 

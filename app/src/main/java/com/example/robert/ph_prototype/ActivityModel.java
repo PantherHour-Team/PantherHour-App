@@ -167,7 +167,7 @@ public class ActivityModel implements Parcelable {
 
     public void fetchActivity(String id) {
 
-        if(id.equals("") || id == null)
+        if(id == null || id.equals(""))
             return;
 
         // Check if it exists first?
