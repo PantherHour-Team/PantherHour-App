@@ -203,7 +203,7 @@ public class ActivityModel implements Parcelable {
 
 
     public void submitActivity() {
-        String id = this.getName() + this.getRoom();
+        String id = (this.getName() + this.getRoom()).replace(" ", "_");
         DatabaseReference ref = firebaseDatabase.getReference("ActivityCollection").child(id);
 
         ref.child("name").setValue(this.getName());
