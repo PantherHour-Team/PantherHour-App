@@ -1,7 +1,9 @@
 package com.example.robert.ph_prototype;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +22,7 @@ import android.widget.TimePicker;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class TeacherEditActivity extends AppCompatActivity {
@@ -44,23 +47,15 @@ public class TeacherEditActivity extends AppCompatActivity {
     private ActivityModel act;
 
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference ref = firebaseDatabase.getReference("ActivityCollection");
+
+    String oldActivityId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_edit_activity);
-        boolean isAdd = getIntent().getBooleanExtra("add_activity", false);
-
-//        // Get the parameters from intent
-//        Bundle bundle = getIntent().getExtras();
-//
-//        if (bundle != null) {
-//            act_id = bundle.getString("id");
-//            act = loadAct(act_id);
-//        } else {
-//            act = new ActivityModel();
-//            students = "";
-//        }
+        final boolean isAdd = getIntent().getBooleanExtra("add_activity", false);
 
         capacity = findViewById(R.id.capacityBox);
         name = findViewById(R.id.activityNameText);
@@ -90,7 +85,15 @@ public class TeacherEditActivity extends AppCompatActivity {
                 mTimePicker = new TimePickerDialog(TeacherEditActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        startTime.append(" " + selectedHour + ":" + selectedMinute + ":" + "00");
+                        startTime.append(" ");
+
+                        if (selectedHour < 10)
+                            startTime.append("0");
+                        startTime.append(selectedHour+":");
+
+                        if (selectedMinute < 10)
+                            startTime.append("0");
+                        startTime.append(selectedMinute + ":" + "00");
                     }
 
                 }, hour, minute, true);//Yes 24 hour time
@@ -141,7 +144,15 @@ public class TeacherEditActivity extends AppCompatActivity {
                 mTimePicker = new TimePickerDialog(TeacherEditActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        endTime.append(" " + selectedHour + ":" + selectedMinute + ":" + "00");
+                        endTime.append(" ");
+
+                        if (selectedHour < 10)
+                            endTime.append("0");
+                        endTime.append(selectedHour+":");
+
+                        if (selectedMinute < 10)
+                            endTime.append("0");
+                        endTime.append(selectedMinute + ":" + "00");
                     }
 
                 }, hour, minute, true);//Yes 24 hour time
@@ -189,6 +200,7 @@ public class TeacherEditActivity extends AppCompatActivity {
         } else {
             ActivityModel currentItem =
                     (ActivityModel) getIntent().getParcelableExtra("parcelable_item");
+            oldActivityId = getIntent().getStringExtra("id");
 
             capacity = findViewById(R.id.capacityBox);
             name = findViewById(R.id.activityNameText);
@@ -209,7 +221,7 @@ public class TeacherEditActivity extends AppCompatActivity {
 
                 // Need to parse here
                 String start = currentItem.getTimeFrame().substring(0,currentItem.getTimeFrame().length()/2);
-                String end = currentItem.getTimeFrame().substring(currentItem.getTimeFrame().length()/2);
+                String end = currentItem.getTimeFrame().substring((currentItem.getTimeFrame().length()/2)+1);
 
                 startTime.setText(start);
                 endTime.setText(end);
@@ -234,7 +246,8 @@ public class TeacherEditActivity extends AppCompatActivity {
 
                     String timeSlot = startTime.getText().toString() + " " + endTime.getText().toString();
 
-                    act = new ActivityModel(name.getText().toString(), "NULL", room.getText().toString(), teacher.getText().toString(), timeSlot, "", capacity.getText().toString());
+                    act = new ActivityModel(name.getText().toString(), "NULL", room.getText().toString(),
+                            teacher.getText().toString(), timeSlot, "", capacity.getText().toString());
 
                     if (type.getCheckedRadioButtonId() == R.id.clubRadio)
                         act.setType("CLUB");
@@ -246,13 +259,15 @@ public class TeacherEditActivity extends AppCompatActivity {
                     act.setStudents(students);
 
                     act.submitActivity();
+
+                    if (!isAdd)
+                        removeActivity(oldActivityId);
+
                     Toast.makeText(getApplicationContext(), "Updated activity successfully", Toast.LENGTH_LONG).show();
-                    setResult(RESULT_OK);
-                    finish();
+                    startActivity(new Intent(TeacherEditActivity.this, TeacherMainActivity.class));
                 } else {
                     Toast.makeText(getApplicationContext(), "Please fill out the form before submitting", Toast.LENGTH_LONG).show();
                 }
-
 
             }
         });
@@ -261,11 +276,14 @@ public class TeacherEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Changes were not saved", Toast.LENGTH_LONG).show();
-                setResult(RESULT_CANCELED);
-                finish();
+                startActivity(new Intent(TeacherEditActivity.this, TeacherMainActivity.class));
             }
         });
 
+    }
+
+    public void removeActivity(String activityId) {
+        ref.child(activityId).removeValue();
     }
 
     public ActivityModel loadAct(String id) {

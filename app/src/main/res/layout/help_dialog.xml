@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:background="@drawable/rounded_corners_magenta"
+        android:background="@drawable/rounded_corners_orange"
         android:descendantFocusability="beforeDescendants">
 
         <LinearLayout

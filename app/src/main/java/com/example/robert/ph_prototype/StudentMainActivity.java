@@ -1,8 +1,10 @@
 package com.example.robert.ph_prototype;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -57,6 +59,25 @@ public class StudentMainActivity extends Activity {
         studentTitle.setText("Welcome, "+userFullName);
 
         initButtons();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .setTitle("Logout")
+                .setMessage("Are you sure you want to logout?")
+                .setPositiveButton("Logout", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(StudentMainActivity.this, LoginActivity.class));
+                    }
+
+                })
+                .setNegativeButton("Stay", null)
+                .show();
     }
 
     private void initButtons() {

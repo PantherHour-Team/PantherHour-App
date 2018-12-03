@@ -200,8 +200,6 @@ public class ActivityModel implements Parcelable {
         activityRef.addListenerForSingleValueEvent(postListener);
     }
 
-
-
     public void submitActivity() {
         String id = (this.getName() + this.getRoom()).replace(" ", "_");
         DatabaseReference ref = firebaseDatabase.getReference("ActivityCollection").child(id);
@@ -213,6 +211,10 @@ public class ActivityModel implements Parcelable {
         ref.child("teacher").setValue(this.getTeacher());
         ref.child("time_frame").setValue(this.getTimeFrame());
         ref.child("type").setValue(this.getType());
+
+        //update room
+        DatabaseReference ref2 = firebaseDatabase.getReference("Rooms");
+        ref2.child(this.getRoom()).setValue(1);
     }
 
 }

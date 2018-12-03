@@ -89,7 +89,7 @@ public class TeacherManageActivity extends AppCompatActivity {
                 Intent intent = new Intent(TeacherManageActivity.this, TeacherEditActivity.class);
                 intent.putExtra("parcelable_item", (Parcelable) selectedItem);
                 intent.putExtra("id", activityIds.get(selectedItem.getName()));
-                startActivityForResult(intent, 1);
+                startActivity(intent);
             }
         });
 
@@ -128,6 +128,7 @@ public class TeacherManageActivity extends AppCompatActivity {
             activityIds.put(name, activity);
         }
         // Reinitialize room filter to populate with all rooms
+        listView.setAdapter(activityModelArrayAdapter);
         initRoomFilter();
     }
 
@@ -141,7 +142,7 @@ public class TeacherManageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent newIntent = new Intent(getApplicationContext(), TeacherEditActivity.class);
                 newIntent.putExtra("add_activity", true);
-                startActivityForResult(newIntent, 1);
+                startActivity(newIntent);
             }
         });
     }
@@ -272,20 +273,6 @@ public class TeacherManageActivity extends AppCompatActivity {
                         R.layout.schedule_item_card, filteredList);
         filteredAdapter.sort(ActivityModelArrayAdapter.getComparator());
         listView.setAdapter(filteredAdapter);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK){
-                Toast.makeText(getApplicationContext(),
-                        "Activity successfully added!",
-                        Toast.LENGTH_LONG).show();
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
-            }
-        }
     }
 
     public String typeToEnumString(String str) {

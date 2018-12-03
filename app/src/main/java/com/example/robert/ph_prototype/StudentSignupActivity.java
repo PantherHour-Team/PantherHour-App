@@ -86,7 +86,7 @@ public class StudentSignupActivity extends AppCompatActivity {
                 break;
             case CLUB:
                 card.setBackground(ContextCompat.getDrawable(getApplicationContext(),
-                        R.drawable.rounded_corners_magenta));
+                        R.drawable.rounded_corners_orange));
                 break;
         }
 
@@ -196,16 +196,18 @@ public class StudentSignupActivity extends AppCompatActivity {
 
     private boolean isOverlap(String timeFrameA, String timeFrameB) {
         // Logic: start1.before(end2) && start2.before(end1);
+        // TODO: Compares only times (Not dates)
 
         String[] frameA = timeFrameA.split(" ");
-        String start1 = frameA[0]+frameA[1];
-        String end1 = frameA[2]+frameA[3];
+        String start1 = frameA[1];
+        String end1 = frameA[3];
 
-        String[] frameB = timeFrameA.split(" ");
-        String start2 = frameB[0]+frameB[1];
-        String end2 = frameB[2]+frameB[3];
+        String[] frameB = timeFrameB.split(" ");
+        String start2 = frameB[1];
+        String end2 = frameB[3];
 
-        Log.d("lol", "Comparing: "+timeFrameA+" and "+timeFrameB);
+        Log.d("lol", "Comparing: "+start1+" and "+end2);
+        Log.d("lol", "Comparing: "+start2+" and "+end1);
         return start1.compareTo(end2) < 0 && start2.compareTo(end1) < 0;
     }
 

@@ -84,7 +84,7 @@ public class ActivityModelArrayAdapter extends ArrayAdapter<ActivityModel> {
                 break;
             case CLUB:
                 row.setBackground(ContextCompat.getDrawable(this.getContext(),
-                        R.drawable.rounded_corners_magenta));
+                        R.drawable.rounded_corners_orange));
                 break;
         }
 
