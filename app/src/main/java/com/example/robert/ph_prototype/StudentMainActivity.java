@@ -54,7 +54,7 @@ public class StudentMainActivity extends Activity {
         userFullName = getIntent().getStringExtra("full_name");
         userId = getIntent().getIntExtra("user_id", -1);
         userEmail = getIntent().getStringExtra("user_email");
-        studentTitle.setText("Welcome, "+userFullName+"\nID: "+userId+"\nEmail: "+userEmail);
+        studentTitle.setText("Welcome, "+userFullName);
 
         initButtons();
     }

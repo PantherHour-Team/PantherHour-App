@@ -5,31 +5,96 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StudentSchedulerActivity">
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    tools:context=".StudentSchedulerActivity"
+    android:background="@drawable/app_background">
 
-    <TextView
-        android:id="@+id/signup_tv"
+    <FrameLayout
+        android:id="@+id/title_card_holder"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="AAA"
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
-        android:textSize="30sp" />
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/rounded_corners"
+        android:descendantFocusability="beforeDescendants">
 
-    <TextView
-        android:id="@+id/detail_tv"
-        app:layout_constraintTop_toBottomOf="@id/signup_tv"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:paddingRight="15dp"
+            android:background="@drawable/card_background_selector"
+            android:descendantFocusability="afterDescendants">
+
+            <TextView
+                android:id="@+id/card_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:gravity="center_horizontal"
+                android:textSize="20sp"
+                android:text="Name"/>
+
+        </LinearLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/description_card_holder"
+        app:layout_constraintTop_toBottomOf="@id/title_card_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="AAA"
-        android:textAlignment="textStart"
-        android:textSize="15sp" />
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/rounded_corners_dkgray"
+        android:descendantFocusability="beforeDescendants">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:paddingRight="15dp"
+            android:background="@drawable/card_background_selector"
+            android:descendantFocusability="afterDescendants">
+
+            <TextView
+                android:id="@+id/description"
+                app:layout_constraintTop_toBottomOf="@id/title_card_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+    </FrameLayout>
+
+    <View
+        app:layout_constraintBottom_toTopOf="@id/go_back_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:paddingBottom="20dp"
+        android:background="#c0c0c0"/>
 
     <Button
         android:id="@+id/go_back_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_width="wrap_content"
+        app:layout_constraintRight_toLeftOf="@id/signup_btn"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_corners"
         android:textColor="@android:color/white"
@@ -39,7 +104,8 @@
         android:id="@+id/signup_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/go_back_btn"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_corners"
         android:textColor="@android:color/white"

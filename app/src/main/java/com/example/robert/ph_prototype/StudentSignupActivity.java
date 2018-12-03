@@ -3,10 +3,12 @@ package com.example.robert.ph_prototype;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +37,8 @@ public class StudentSignupActivity extends AppCompatActivity {
     private int userId;
     private boolean signupEnabled;
 
-    TextView text;
+    TextView title;
+    TextView description;
     Button goBackButton;
     Button signUpButton;
 
@@ -67,9 +70,27 @@ public class StudentSignupActivity extends AppCompatActivity {
             }
         });
 
-        text = findViewById(R.id.signup_tv);
-        text.setText(currentItem.getName());
-        StringBuffer stringBuffer = new StringBuffer("Details: \n");
+        title = findViewById(R.id.card_title);
+        title.setText(currentItem.getName());
+
+        // Coloring scheme
+        FrameLayout card = findViewById(R.id.title_card_holder);
+        switch (ActivityModel.Type.valueOf(currentItem.getType())) {
+            case COURSE_HELP:
+                card.setBackground(ContextCompat.getDrawable(getApplicationContext(),
+                        R.drawable.rounded_corners_dkgray));
+                break;
+            case SELF_GUIDED:
+                card.setBackground(ContextCompat.getDrawable(getApplicationContext(),
+                        R.drawable.rounded_corners_blue));
+                break;
+            case CLUB:
+                card.setBackground(ContextCompat.getDrawable(getApplicationContext(),
+                        R.drawable.rounded_corners_magenta));
+                break;
+        }
+
+        StringBuffer stringBuffer = new StringBuffer("Details\n\n");
         stringBuffer.append("Type: "+currentItem.getType()+"\n");
         stringBuffer.append("Room Number: "+currentItem.getRoom()+"\n");
         stringBuffer.append("Time Frame: "+currentItem.getTimeFrame()+"\n");
@@ -78,8 +99,8 @@ public class StudentSignupActivity extends AppCompatActivity {
         stringBuffer.append("Students: "+currentItem.getStudents());
         stringBuffer.append("\n\nActivity ID: "+activityID);
 
-        text = findViewById(R.id.detail_tv);
-        text.setText(stringBuffer.toString());
+        description = findViewById(R.id.description);
+        description.setText(stringBuffer.toString());
 
         initButtons();
     }

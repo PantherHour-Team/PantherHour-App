@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.robert.ph_prototype.TeacherManageActivity">
+    tools:context="com.example.robert.ph_prototype.TeacherManageActivity"
+    android:background="@drawable/app_background">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/toolbar_layout"
@@ -66,7 +67,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#e2e4fe">
+        android:background="@android:color/transparent">
 
         <ListView
             android:id="@+id/card_listView"

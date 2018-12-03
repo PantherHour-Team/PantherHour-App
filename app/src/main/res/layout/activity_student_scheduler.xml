@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StudentSchedulerActivity">
+    tools:context=".StudentSchedulerActivity"
+    android:background="@drawable/app_background">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/toolbar_layout"
@@ -29,7 +30,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="@dimen/appbar_padding_top"
-        android:gravity="center">
+        android:gravity="center"
+        android:background="@android:color/transparent">
 
         <Spinner
             android:id="@+id/room_filter"
@@ -56,7 +58,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#e2e4fe">
+        android:background="@android:color/transparent">
 
         <ListView
             android:id="@+id/card_listView"

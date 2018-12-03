@@ -68,7 +68,7 @@ public class ActivityModelArrayAdapter extends ArrayAdapter<ActivityModel> {
         }
         ActivityModel card = getItem(position);
         viewHolder.name.setText("Title: "+card.getName());
-        viewHolder.time.setText("Time: "+card.getStartTime());
+        viewHolder.time.setText("Time: "+card.getStartTime()+" - "+card.getEndTime());
         viewHolder.room.setText("Room: "+card.getRoom());
         viewHolder.capacity.setText("Capacity: "+card.getCapacity());
 

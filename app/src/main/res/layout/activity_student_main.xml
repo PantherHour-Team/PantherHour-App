@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.robert.ph_prototype.StudentMainActivity">
+    tools:context="com.example.robert.ph_prototype.StudentMainActivity"
+    android:background="@drawable/app_background">
 
 
     <ScrollView
@@ -20,14 +21,26 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="#60000000"/>
+
             <TextView
                 android:id="@+id/student_main_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="25dp"
                 android:text="Student Activities"
                 android:textColor="@android:color/black"
                 android:textAlignment="center"
                 android:textSize="30sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="#60000000"/>
 
             <Button
                 android:id="@+id/course_btn"
@@ -68,7 +81,6 @@
                 android:text="See My Activities"
                 android:background="@drawable/rounded_corners"
                 android:textColor="@android:color/white"/>
-
 
         </LinearLayout>
 

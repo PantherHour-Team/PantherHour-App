@@ -9,7 +9,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:background="@drawable/app_background">
 
     <!-- Login progress -->
     <ProgressBar
@@ -31,16 +32,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:src="@mipmap/panthers_foreground"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="#60000000"/>
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="25dp"
                 android:text="@string/app_name"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
@@ -48,12 +50,17 @@
                 tools:padding="10pt"
                 tools:textAlignment="center" />
 
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="#60000000"/>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingLeft="0pt"
-                android:paddingTop="10pt"
-                android:text="Welcome Back."
+                android:paddingTop="20pt"
+                android:text="Welcome Back"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textStyle="bold" />
 
@@ -105,11 +112,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="15dp"
                 android:text="@string/action_sign_in"
                 android:textStyle="bold"
                 android:background="@drawable/rounded_corners"
                 android:textColor="@android:color/white"/>
-
 
             <TextView
                 android:id="@+id/register_link"
@@ -122,16 +129,18 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 tools:textColor="@android:color/holo_blue_dark" />
 
+            <ImageView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/panthers_foreground"/>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="40pt"
                 android:text="(C) PantherApps.com"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-
-
 
         </LinearLayout>
     </ScrollView>

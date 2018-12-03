@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.robert.ph_prototype.TeacherAdminActivity">
+    tools:context="com.example.robert.ph_prototype.TeacherAdminActivity"
+    android:background="@drawable/app_background">
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -35,12 +36,18 @@
                 android:id="@+id/toggle_active"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:gravity="end"
                 android:text="Active Students    "/>
 
             <Switch
                 android:id="@+id/toggle_inactive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:gravity="end"
                 android:text="Inactive Students    " />
 
         </LinearLayout>
@@ -54,7 +61,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#e2e4fe">
+        android:background="@android:color/transparent">
 
         <ListView
             android:id="@+id/card_listView"

@@ -9,7 +9,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:background="@drawable/app_background">
 
     <!-- Login progress -->
 
@@ -32,16 +33,28 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="#60000000"/>
+
             <TextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 android:text="@string/app_name"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textSize="36sp"
                 tools:padding="10pt"
                 tools:textAlignment="center" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="#60000000"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -135,7 +148,6 @@
 
             </LinearLayout>
 
-
             <Button
                 android:id="@+id/email_sign_in_button"
                 style="?android:textAppearanceSmall"
@@ -147,6 +159,11 @@
                 android:background="@drawable/rounded_corners"
                 android:textColor="@android:color/white"/>
 
+            <ImageView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/panthers_foreground"/>
 
             <TextView
                 android:layout_width="match_parent"
