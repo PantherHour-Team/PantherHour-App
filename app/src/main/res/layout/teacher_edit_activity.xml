@@ -23,7 +23,7 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Manage Activity"
+            android:text="Edit Activity"
             android:textAlignment="center"
             android:textSize="30sp" />
 
@@ -69,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Room Number" />
+                android:text="Room Number:" />
 
             <EditText
                 android:id="@+id/roomNumberBox"
@@ -102,29 +102,6 @@
                 android:ems="10"
                 android:hint="Teacher Name"
                 android:inputType="text" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/durationLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/durationLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Duration:" />
-
-            <EditText
-                android:id="@+id/durationBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Minutes"
-                android:inputType="number" />
         </LinearLayout>
 
         <LinearLayout
@@ -162,16 +139,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Time Slot:" />
+                android:text="Start :" />
 
             <EditText
-                android:id="@+id/timeSlotText"
+                android:id="@+id/startText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:editable="false"
+                android:ems="10"
+                android:hint="Time"
+                android:inputType="none" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/timeSlotLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/endLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="End :" />
+
+            <EditText
+                android:id="@+id/endText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="Time"
-                android:inputType="time" />
+                android:inputType="none" />
 
         </LinearLayout>
 
@@ -180,7 +182,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5pt"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/ActivittyLabel"
@@ -194,7 +196,8 @@
                 android:id="@+id/radioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/courseRadio"
