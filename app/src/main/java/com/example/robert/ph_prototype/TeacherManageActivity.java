@@ -44,6 +44,7 @@ public class TeacherManageActivity extends AppCompatActivity {
 
     private String currRoomFilter = "All Rooms";
     private String currTimeFilter = "All Time Slots";
+    private String currTypeFilter = "All Activity Types";
 
     private Set<String> allRooms;
 
@@ -148,6 +149,7 @@ public class TeacherManageActivity extends AppCompatActivity {
     private void initDropdownFilters() {
         initTimeFilter();
         initRoomFilter();
+        initTypeFilter();
     }
 
     private void initRoomFilter() {
@@ -199,30 +201,68 @@ public class TeacherManageActivity extends AppCompatActivity {
         timeFilter.setAdapter(timeFilterAdapter);
     }
 
+    private void initTypeFilter() {
+        // Set up type filter
+        Spinner typeFilter = findViewById(R.id.type_filter);
+        typeFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = (String) parent.getItemAtPosition(position);
+                currTypeFilter = selectedItem;
+                filterList();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        String[] timeSlots = new String[]{"Course Help", "Self Guided", "Clubs"};
+        ArrayList<String> types = new ArrayList<>();
+        types.add("All Activity Types");
+        types.addAll(Arrays.asList(timeSlots));
+        ArrayAdapter<String> typeFilterAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, types);
+        typeFilter.setAdapter(typeFilterAdapter);
+    }
+
     private void filterList() {
-        if (currRoomFilter.equals("All Rooms") && currTimeFilter.equals("All Time Slots")) {
+        if (currRoomFilter.equals("All Rooms") && currTimeFilter.equals("All Time Slots")
+                && currTypeFilter.equals("All Activity Types")) {
             listView.setAdapter(activityModelArrayAdapter);
             return;
         }
 
         boolean allRooms = currRoomFilter.equals("All Rooms");
         boolean allTimes = currTimeFilter.equals("All Time Slots");
+        boolean allActivityTypes = currTypeFilter.equals("All Activity Types");
 
         ArrayList<ActivityModel> filteredList = new ArrayList<>();
         for (int i = 0; i < activityModelArrayAdapter.getCount(); i++) {
             ActivityModel current = activityModelArrayAdapter.getItem(i);
+            if (current == null) continue;
             if (allRooms) {
-                if (current.getStartTime().contains(currTimeFilter)) {
-                    filteredList.add(current);
+                if (allTimes) {
+                    if (allActivityTypes)
+                        filteredList.add(current);
+                    else if (current.getType().equals(typeToEnumString(currTypeFilter)))
+                        filteredList.add(current);
+                } else if (current.getStartTime().contains(currTimeFilter)) {
+                    if (allActivityTypes)
+                        filteredList.add(current);
+                    else if (current.getType().equals(typeToEnumString(currTypeFilter)))
+                        filteredList.add(current);
                 }
-            } else if (allTimes) {
-                if (current.getRoom().equals(currRoomFilter)) {
-                    filteredList.add(current);
-                }
-            } else {
-                if (current.getRoom().equals(currRoomFilter)
-                        && current.getStartTime().contains(currTimeFilter)) {
-                    filteredList.add(current);
+            } else if (current.getRoom().equals(currRoomFilter)) {
+                if (allTimes) {
+                    if (allActivityTypes)
+                        filteredList.add(current);
+                    else if (current.getType().equals(typeToEnumString(currTypeFilter)))
+                        filteredList.add(current);
+                } else if (current.getStartTime().contains(currTimeFilter)) {
+                    if (allActivityTypes)
+                        filteredList.add(current);
+                    else if (current.getType().equals(typeToEnumString(currTypeFilter)))
+                        filteredList.add(current);
                 }
             }
         }
@@ -246,5 +286,17 @@ public class TeacherManageActivity extends AppCompatActivity {
                 //Write your code if there's no result
             }
         }
+    }
+
+    public String typeToEnumString(String str) {
+        switch (str) {
+            case "Course Help":
+                return "COURSE_HELP";
+            case "Self Guided":
+                return "SELF_GUIDED";
+            case "Clubs":
+                return "CLUB";
+        }
+        return null;
     }
 }
