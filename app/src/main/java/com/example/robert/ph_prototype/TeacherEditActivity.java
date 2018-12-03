@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.app.AppCompatActivity;
 import com.google.firebase.database.FirebaseDatabase;
@@ -31,6 +32,7 @@ public class TeacherEditActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_edit_activity);
+        boolean isAdd = getIntent().getBooleanExtra("add_activity", false);
 
         final ActivityObject act = new ActivityObject();
 
@@ -43,10 +45,33 @@ public class TeacherEditActivity extends AppCompatActivity {
         time = findViewById(R.id.timeSlotText);
         type = findViewById(R.id.radioGroup);
 
-
         cancelButton = findViewById(R.id.cancelButton);
         submitButton = findViewById(R.id.updateButton);
 
+        // Pre-populate if the teacher selected a card
+        if (isAdd) {
+            ((TextView) findViewById(R.id.title)).setText("Add New Activity");
+        } else {
+            ActivityModel currentItem =
+                    (ActivityModel) getIntent().getParcelableExtra("parcelable_item");
+
+            name.setText(currentItem.getName());
+            room.setText(currentItem.getRoom());
+            teacher.setText(currentItem.getTeacher());
+            capacity.setText(currentItem.getCapacity());
+            time.setText(currentItem.getTimeFrame());
+            switch (ActivityModel.Type.valueOf(currentItem.getType())) {
+                case CLUB:
+                    type.check(R.id.clubRadio);
+                    break;
+                case SELF_GUIDED:
+                    type.check(R.id.selfRadio);
+                    break;
+                case COURSE_HELP:
+                    type.check(R.id.courseRadio);
+                    break;
+            }
+        }
 
         submitButton.setOnClickListener(new View.OnClickListener() {
 

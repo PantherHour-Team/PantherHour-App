@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class ScheduleItemCardArrayAdapter extends ArrayAdapter<ActivityModel> {
-    private static final String TAG = "ScheduleItemCardArrayAdapter";
+public class ActivityModelArrayAdapter extends ArrayAdapter<ActivityModel> {
     private List<ActivityModel> cardList = new ArrayList<ActivityModel>();
 
     static class CardViewHolder {
@@ -25,12 +24,12 @@ public class ScheduleItemCardArrayAdapter extends ArrayAdapter<ActivityModel> {
         TextView capacity;
     }
 
-    public ScheduleItemCardArrayAdapter(Context context, int textViewResourceId) {
+    public ActivityModelArrayAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
     }
 
-    public ScheduleItemCardArrayAdapter(Context context, int textViewResourceId,
-                                        ArrayList<ActivityModel> cardList) {
+    public ActivityModelArrayAdapter(Context context, int textViewResourceId,
+                                     ArrayList<ActivityModel> cardList) {
         super(context, textViewResourceId);
         this.cardList = cardList;
     }

@@ -41,7 +41,7 @@ public class StudentSchedulerActivity extends AppCompatActivity {
     HashMap<String, HashMap<String, String>> allActivities;
     HashMap<String, String> activityIds = new HashMap<>();
 
-    private ScheduleItemCardArrayAdapter scheduleItemCardArrayAdapter;
+    private ActivityModelArrayAdapter activityModelArrayAdapter;
     private ListView listView;
 
     private ActivityModel.Type filter;
@@ -74,7 +74,7 @@ public class StudentSchedulerActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 allActivities =
                         (HashMap<String, HashMap<String, String>>) dataSnapshot.getValue();
-                parseActivityData(scheduleItemCardArrayAdapter);
+                parseActivityData(activityModelArrayAdapter);
                 Log.d(TAG, "List of activities: " + allActivities);
             }
 
@@ -111,18 +111,18 @@ public class StudentSchedulerActivity extends AppCompatActivity {
             }
         });
 
-        scheduleItemCardArrayAdapter = new ScheduleItemCardArrayAdapter(getApplicationContext(), R.layout.schedule_item_card);
-        listView.setAdapter(scheduleItemCardArrayAdapter);
+        activityModelArrayAdapter = new ActivityModelArrayAdapter(getApplicationContext(), R.layout.schedule_item_card);
+        listView.setAdapter(activityModelArrayAdapter);
     }
 
     //  {Activity1={Type=Club, Students=<Nick Shinn, Austin Le>, Capacity=100, Teacher=Mr. Bboy, Duration=60, Time=11:00, Room=222, Name=BboyClub}}
-    private void parseActivityData(ScheduleItemCardArrayAdapter scheduleItemCardArrayAdapter) {
+    private void parseActivityData(ActivityModelArrayAdapter activityModelArrayAdapter) {
         Log.d(TAG, "Parsing Activity Data");
-        if (allActivities == null || scheduleItemCardArrayAdapter == null) {
+        if (allActivities == null || activityModelArrayAdapter == null) {
             Log.d(TAG, "null activities or adapter");
             return;
         } else {
-            scheduleItemCardArrayAdapter.reset();
+            activityModelArrayAdapter.reset();
             activityIds.clear();
         }
         if (filter == ActivityModel.Type.MINE) {
@@ -143,7 +143,7 @@ public class StudentSchedulerActivity extends AppCompatActivity {
 
                 ActivityModel newActivity =
                         new ActivityModel(name, type, room, teacher, timeFrame, students, capacity);
-                scheduleItemCardArrayAdapter.add(newActivity);
+                activityModelArrayAdapter.add(newActivity);
                 allRooms.add(room);
                 activityIds.put(name, activity);
             }
@@ -163,7 +163,7 @@ public class StudentSchedulerActivity extends AppCompatActivity {
                 if (filter == ActivityModel.Type.valueOf(type)) {
                     ActivityModel newActivity =
                             new ActivityModel(name, type, room, teacher, timeFrame, students, capacity);
-                    scheduleItemCardArrayAdapter.add(newActivity);
+                    activityModelArrayAdapter.add(newActivity);
                     allRooms.add(room);
                 }
                 activityIds.put(name, activity);
@@ -257,7 +257,7 @@ public class StudentSchedulerActivity extends AppCompatActivity {
 
     private void filterList() {
         if (currRoomFilter.equals("All Rooms") && currTimeFilter.equals("All Time Slots")) {
-            listView.setAdapter(scheduleItemCardArrayAdapter);
+            listView.setAdapter(activityModelArrayAdapter);
             return;
         }
 
@@ -265,8 +265,8 @@ public class StudentSchedulerActivity extends AppCompatActivity {
         boolean allTimes = currTimeFilter.equals("All Time Slots");
 
         ArrayList<ActivityModel> filteredList = new ArrayList<>();
-        for (int i = 0; i < scheduleItemCardArrayAdapter.getCount(); i++) {
-            ActivityModel current = scheduleItemCardArrayAdapter.getItem(i);
+        for (int i = 0; i < activityModelArrayAdapter.getCount(); i++) {
+            ActivityModel current = activityModelArrayAdapter.getItem(i);
             if (allRooms) {
                 if (current.getStartTime().contains(currTimeFilter)) {
                     filteredList.add(current);
@@ -283,10 +283,10 @@ public class StudentSchedulerActivity extends AppCompatActivity {
             }
         }
 
-        ScheduleItemCardArrayAdapter filteredAdapter =
-                new ScheduleItemCardArrayAdapter(getApplicationContext(),
+        ActivityModelArrayAdapter filteredAdapter =
+                new ActivityModelArrayAdapter(getApplicationContext(),
                         R.layout.schedule_item_card, filteredList);
-        filteredAdapter.sort(ScheduleItemCardArrayAdapter.getComparator());
+        filteredAdapter.sort(ActivityModelArrayAdapter.getComparator());
         listView.setAdapter(filteredAdapter);
     }
 

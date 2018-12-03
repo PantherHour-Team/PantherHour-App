@@ -1,24 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TeacherAdminActivity">
+    tools:context="com.example.robert.ph_prototype.TeacherAdminActivity">
 
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/filter_layout"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/appbar_padding_top"
+        android:gravity="center">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
+        <Spinner
+            android:id="@+id/room_filter"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cards Here"
-            tools:layout_editor_absoluteX="89dp"
-            tools:layout_editor_absoluteY="129dp" />
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight=".25">
+
+            <Switch
+                android:id="@+id/toggle_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Active Students    "/>
+
+            <Switch
+                android:id="@+id/toggle_inactive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Inactive Students    " />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        app:layout_constraintTop_toBottomOf="@id/filter_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#e2e4fe">
+
+        <ListView
+            android:id="@+id/card_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:listSelector="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@null"
+            android:dividerHeight="10dp" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
