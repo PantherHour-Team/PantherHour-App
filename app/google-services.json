@@ -1,0 +1,87 @@
+{
+  "project_info": {
+    "project_number": "996296986939",
+    "firebase_url": "https://panther-hour.firebaseio.com",
+    "project_id": "panther-hour",
+    "storage_bucket": "panther-hour.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996296986939:android:f796dd04fb0dfa0a",
+        "android_client_info": {
+          "package_name": "com.example.robert.ph_prototype"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "996296986939-p9ajbf2ckrm4u5kai79p57kfkmk84fc7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.robert.ph_prototype",
+            "certificate_hash": "27040943710f85305660d9962322a3cbdeb0f670"
+          }
+        },
+        {
+          "client_id": "996296986939-b35qcmdlm4bo7hrlr7502d2au13j3vci.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.robert.ph_prototype",
+            "certificate_hash": "215f9bcef94131a1064ee232e1ef927c29e8e716"
+          }
+        },
+        {
+          "client_id": "996296986939-bfn2kr5ia6soal80mgcfl87b3p703gkv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.robert.ph_prototype",
+            "certificate_hash": "d762c08a45ab4ead403fde490fba4c3c087be982"
+          }
+        },
+        {
+          "client_id": "996296986939-1asnq46694n9tg5vavpf7rvg2qbqdcof.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.robert.ph_prototype",
+            "certificate_hash": "492dd633b1176330751fd2ad93abd5b41e9ffa43"
+          }
+        },
+        {
+          "client_id": "996296986939-6cmn7epbd8mnhsrf1fcdlg9nvta9ee24.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.robert.ph_prototype",
+            "certificate_hash": "2d7fed1364329c04684dee59cfa007024b9f52cc"
+          }
+        },
+        {
+          "client_id": "996296986939-7fqkfb3nqoduqk4bo4l2bdceon5t2akk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzqNpbfM9FQQcuswo0dG86DCoOLWSQVF8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "996296986939-7fqkfb3nqoduqk4bo4l2bdceon5t2akk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
