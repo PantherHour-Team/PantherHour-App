@@ -26,12 +26,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10pt"
+        android:background="@drawable/rounded_corners"
+        android:textColor="@android:color/white"
         android:text="Manage Activities" />
 
     <Button
-            android:id="@+id/admin_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10pt"
-            android:text="Admin Control Panel" />
+        android:id="@+id/admin_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10pt"
+        android:background="@drawable/rounded_corners"
+        android:textColor="@android:color/white"
+        android:text="Admin Control Panel" />
     </LinearLayout>

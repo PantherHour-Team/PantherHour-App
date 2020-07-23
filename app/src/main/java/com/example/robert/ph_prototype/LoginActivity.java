@@ -4,10 +4,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -25,11 +26,16 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -68,6 +74,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private UserLoginTask mAuthTask = null;
 
+    private String fullName;
+    private int userId;
+    private int accountType;
+
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
@@ -80,6 +90,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -175,6 +186,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.hasChild(safeEmail(mEmailView.getText().toString()))) {
+                    fullName =
+                            snapshot.child(safeEmail(mEmailView.getText().toString())).child("full_name").getValue(String.class);
+                    userId =
+                            snapshot.child(safeEmail(mEmailView.getText().toString())).child("user_id").getValue(Integer.class);
+                    accountType =
+                            snapshot.child(safeEmail(mEmailView.getText().toString())).child("account_type").getValue(Integer.class);
                     emailValid();
                 }
                 else {
@@ -185,7 +202,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onCancelled(DatabaseError error) {}
         });
-
     }
 
     public void emailValid() {
@@ -401,7 +417,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 finish();
-                startActivity(new Intent(LoginActivity.this, TeacherMainActivity.class));
+                if (accountType == 1) {
+                    startTeacherActivtiy();
+                } else {
+                    startStudentActivity();
+                }
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -415,17 +435,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+    private void startStudentActivity() {
+        Intent intent = new Intent(LoginActivity.this, StudentMainActivity.class);
+        intent.putExtra("full_name", fullName);
+        intent.putExtra("user_id", userId);
+        intent.putExtra("user_email", mEmailView.getText().toString());
+        startActivity(intent);
+    }
+
+    private void startTeacherActivtiy() {
+        Intent intent = new Intent(LoginActivity.this, TeacherMainActivity.class);
+        intent.putExtra("full_name", fullName);
+        intent.putExtra("user_id", userId);
+        startActivity(intent);
+    }
+
     private String safeEmail(String email) {
         return email.replace("@","(AT)").replace(".","(DOT)");
     }
 
-    private int whatKind(String s) {
-        if(s.equals("Student")) {
-            return 0;
-        }
-        else {
-            return 1;
-        }
-    }
 }
 

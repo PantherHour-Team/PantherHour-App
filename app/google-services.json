@@ -47,6 +47,14 @@
           }
         },
         {
+          "client_id": "996296986939-6cmn7epbd8mnhsrf1fcdlg9nvta9ee24.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.robert.ph_prototype",
+            "certificate_hash": "2d7fed1364329c04684dee59cfa007024b9f52cc"
+          }
+        },
+        {
           "client_id": "996296986939-7fqkfb3nqoduqk4bo4l2bdceon5t2akk.apps.googleusercontent.com",
           "client_type": 3
         }

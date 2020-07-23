@@ -77,12 +77,15 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         public String full_name;
         public String pass_word;
         public int user_id;
+        public String activities;
 
-        public User(int accountType, String fullName, String password, int userId) {
+        public User(int accountType, String fullName, String password, int userId,
+                    String activities) {
             account_type = accountType;
             full_name = fullName;
             pass_word = password;
             user_id = userId;
+            this.activities = activities;
         }
 
     }
@@ -250,7 +253,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password, fullName);
+            mAuthTask = new UserLoginTask(email, password, fullName, "");
             mAuthTask.execute((Void) null);
         }
     }
@@ -365,11 +368,13 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         private final String mEmail;
         private final String mPassword;
         private final String mFullName;
+        private final String mActivities;
 
-        UserLoginTask(String email, String password, String name) {
+        UserLoginTask(String email, String password, String name, String activities) {
             mEmail = email;
             mPassword = password;
             mFullName = name;
+            mActivities = activities;
         }
 
         @Override
@@ -387,7 +392,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Integer mID = dataSnapshot.getValue(Integer.class);
                     Log.i("mID", Integer.toString(mID));
-                    addAccount(mEmail,mPassword, mFullName, mID);
+                    addAccount(mEmail,mPassword, mFullName, mID, mActivities);
                     mRootReference.child("key").setValue(mID + 1);
                 }
 
@@ -418,11 +423,13 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         }
     }
 
-    private void addAccount(String mEmail, String mPassword, String mFullName, int id) {
+    private void addAccount(String mEmail, String mPassword, String mFullName, int id, String activities) {
 
         RadioGroup radioSexGroup = (RadioGroup) findViewById(R.id.radioGroup);
-        String acc_type = ((RadioButton) findViewById(radioSexGroup.getCheckedRadioButtonId())).getText().toString();
-        mRootReference.child(safeEmail(mEmail)).setValue(new User(whatKind(acc_type), mFullName, mPassword, id));
+        String acc_type =
+                ((RadioButton) findViewById(radioSexGroup.getCheckedRadioButtonId())).getText().toString();
+        mRootReference.child(safeEmail(mEmail)).setValue(new User(whatKind(acc_type), mFullName,
+                mPassword, id, activities));
     }
 
     private String safeEmail(String email) {

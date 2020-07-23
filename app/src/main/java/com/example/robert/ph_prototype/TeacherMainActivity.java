@@ -29,7 +29,6 @@ public class TeacherMainActivity extends AppCompatActivity {
             }
         });
 
-
         adminButton = findViewById(R.id.admin_btn);
         adminButton.setOnClickListener(new View.OnClickListener() {
             @Override

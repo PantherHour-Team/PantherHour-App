@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    android:id="@+id/activity_main"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.robert.ph_prototype.TeacherManageActivity">
+    tools:context=".StudentSchedulerActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/toolbar_layout"
@@ -49,14 +47,6 @@
             android:spinnerMode="dropdown"
             android:layout_weight="1"/>
 
-        <Spinner
-            android:id="@+id/type_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:drawable/btn_dropdown"
-            android:spinnerMode="dropdown"
-            android:layout_weight="1"/>
-
     </LinearLayout>
 
     <LinearLayout
@@ -86,6 +76,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_add_white_24dp" />
+        app:srcCompat="@android:drawable/ic_menu_help" />
 
 </android.support.constraint.ConstraintLayout>
